@@ -3,11 +3,15 @@ import PropTypes from "prop-types";
 
 const Footer = () => {
   return (
-    <div>
-      <a href="https://naver.com" target="_blank" rel="noreferrer nopoener">
-        Made by jtm.
+    <footer className="footer">
+      <a
+        href="https://github.com/jt01052552295/nextjs-portfolio-shop"
+        target="_blank"
+        rel="noreferrer nopoener"
+      >
+        &copy; 2022 jtm
       </a>
-    </div>
+    </footer>
   );
 };
 

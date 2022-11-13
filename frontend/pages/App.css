@@ -13,3 +13,11 @@ body {
 .ant-layout {
   background: #fff;
 }
+
+.footer {
+  height: 100px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
