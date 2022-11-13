@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+body {
+  background-color: #efefef;
+}
+
+.max-container {
+  min-width: 320px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ant-layout {
+  background: #fff;
+}
