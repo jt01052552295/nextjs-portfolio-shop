@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import Image from "next/image";
 import AppLayout from "../components/AppLayout";
 import Items from "../components/items/Items";
 
@@ -8,12 +8,15 @@ export default function index() {
     <div className="max-container">
       <AppLayout>
         <div className="mb">
-          <article
-            className="mainBanner"
-            style={{
-              backgroundImage: "url(/images/main.png)",
-            }}
-          ></article>
+          <div className="mainBanner">
+            <Image
+              src={`/images/main.png`}
+              className="mbImg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              fill
+              alt="main"
+            />
+          </div>
         </div>
         <Items />
       </AppLayout>
