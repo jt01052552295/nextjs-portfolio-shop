@@ -1,12 +1,13 @@
-import React from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
+
 import AppLayout from "../components/AppLayout";
+import Items from "../components/items/Items";
 
 export default function index() {
   return (
     <div className="max-container">
       <AppLayout>
-        <div>
+        <div className="mb">
           <article
             className="mainBanner"
             style={{
@@ -14,27 +15,7 @@ export default function index() {
             }}
           ></article>
         </div>
-        <div>
-          <div className="item">
-            <Link href="#">
-              <div className="img">
-                {/* <img src="images/image001.png" alt="product" /> */}
-              </div>
-            </Link>
-            <div className="category">
-              <span>아이돈케어</span>
-            </div>
-
-            <div className="name">
-              <span>마로네 노트북 파우치</span>
-            </div>
-
-            <div className="item_price">
-              <span className="price">17100</span>
-              <span className="unit">원</span>
-            </div>
-          </div>
-        </div>
+        <Items />
       </AppLayout>
     </div>
   );

@@ -1,7 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { ArrowUpOutlined } from "@ant-design/icons";
+import { Button, Tooltip } from "antd";
 
 const Footer = () => {
+  const goToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer className="footer">
       <a
@@ -11,6 +20,15 @@ const Footer = () => {
       >
         &copy; 2022 jtm
       </a>
+
+      <div className="top-to-btm">
+        <Button
+          type="primary"
+          shape="circle"
+          icon={<ArrowUpOutlined />}
+          onClick={goToTop}
+        />
+      </div>
     </footer>
   );
 };

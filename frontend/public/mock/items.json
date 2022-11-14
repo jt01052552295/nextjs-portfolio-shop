@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "idx": 1,
+      "name": "레몬크림쉬림프",
+      "category": "프리미엄",
+      "price": 35900,
+      "image": "/item/0202/1612321600/list.png",
+      "sale": 8
+    },
+    {
+      "idx": 2,
+      "name": "돈마호크",
+      "category": "프리미엄",
+      "price": 35900,
+      "image": "/item/0202/1612321601/list.png",
+      "sale": 7
+    },
+    {
+      "idx": 3,
+      "name": "케이준 더블쉬림프",
+      "category": "프리미엄",
+      "price": 35900,
+      "image": "/item/0202/1612321602/list.png",
+      "sale": 6
+    },
+    {
+      "idx": 4,
+      "name": "립스테이크",
+      "category": "프리미엄",
+      "price": 35900,
+      "image": "/item/0202/1612321603/list.png",
+      "sale": 5
+    },
+    {
+      "idx": 5,
+      "name": "수퍼슈프림",
+      "category": "프리미엄",
+      "price": 32900,
+      "image": "/item/0202/1612321604/list.png",
+      "sale": 4
+    },
+    {
+      "idx": 6,
+      "name": "갈릭버터쉬림프",
+      "category": "프리미엄",
+      "price": 32900,
+      "image": "/item/0202/1612321605/list.png",
+      "sale": 3
+    },
+    {
+      "idx": 7,
+      "name": "직화불고기",
+      "category": "프리미엄",
+      "price": 32900,
+      "image": "/item/0202/1612321606/list.png",
+      "sale": 2
+    },
+    {
+      "idx": 8,
+      "name": "베이컨포테이토",
+      "category": "프리미엄",
+      "price": 32900,
+      "image": "/item/0202/1612321607/list.png",
+      "sale": 1
+    }
+  ]
+}

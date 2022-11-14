@@ -11,9 +11,7 @@ export default function PageNotFound() {
             <Col xs={24}>
               <div className="singlePageContent">
                 <h1 className="display-1 fw-bold">404</h1>
-
                 <p className="fs-3">존재하지 않는 페이지 입니다.</p>
-
                 <Link href="/">메인페이지</Link>
               </div>
             </Col>
