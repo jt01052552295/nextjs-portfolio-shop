@@ -42,7 +42,7 @@ body {
 }
 .mainBanner {
   position: relative;
-  height: 420px;
+  height: 480px;
 }
 .mainBanner img {
   object-fit: fill;

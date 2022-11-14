@@ -57,10 +57,10 @@ const Header = () => {
           <SearchOutlined />
         </Col> */}
         <Col>
-          <Link href="/sign-in">Login</Link>
+          <Link href="/member/login">Login</Link>
         </Col>
         <Col>
-          <Link href="/sign-up">SignUp</Link>
+          <Link href="/member/sign-up">SignUp</Link>
         </Col>
         <Col>
           <Link href="/cart">Cart</Link>

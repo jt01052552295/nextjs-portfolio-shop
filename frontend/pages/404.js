@@ -6,7 +6,7 @@ export default function PageNotFound() {
   return (
     <div className="max-container">
       <SingleLayout>
-        <Layout style={{ width: "100vw", height: "100vh" }}>
+        <Layout style={{ height: "100vh" }}>
           <Row justify="center">
             <Col xs={24}>
               <div className="singlePageContent">

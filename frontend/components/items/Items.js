@@ -17,6 +17,19 @@ const Items = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    let arr = [...items];
+    if (size === "sale") {
+      setItems(arr.sort((a, b) => b.sale - a.sale));
+    } else if (size === "price1") {
+      setItems(arr.sort((a, b) => b.price - a.price));
+    } else if (size === "price2") {
+      setItems(arr.sort((a, b) => a.price - b.price));
+    } else if (size === "idx") {
+      setItems(arr.sort((a, b) => b.idx - a.idx));
+    }
+  }, [size]);
+
   return (
     <div className="items">
       <Row justify="end">
@@ -37,11 +50,12 @@ const Items = (props) => {
         <Row gutter={16}>
           {items.length === 0 &&
             Array.from(Array(12)).map((i) => {
-              return <ItemSkeleton key={`key-${i}`} />;
+              let ran = Math.random();
+              return <ItemSkeleton key={`key-${ran}`} />;
             })}
           {items.length > 0 &&
             items.map((item) => {
-              return <Item key={`key-${item.name}`} item={item} />;
+              return <Item key={`key-${item.idx}`} item={item} />;
             })}
         </Row>
       </div>

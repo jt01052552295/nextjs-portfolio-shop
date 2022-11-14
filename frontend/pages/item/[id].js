@@ -1,16 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import ItemDetail from "../../components/items/ItemDetail";
+import AppLayout from "../../components/AppLayout";
+import { useRouter } from "next/router";
+import axios from "axios";
 
-const ViewItem = ({ id }) => {
+const itemsJson = "/mock/items.json";
+const ViewItem = ({ id, message }) => {
+  const router = useRouter();
+  const [item, setItem] = useState({});
+  useEffect(() => {
+    axios(itemsJson).then((res) => {
+      setItem(res.data.items.find((x) => x.idx === parseInt(id)));
+    });
+  }, []);
+
   return (
-    <div>
-      <ItemDetail />
+    <div className="max-container">
+      <AppLayout>
+        <ItemDetail item={item} />
+      </AppLayout>
     </div>
   );
 };
 
-ViewItem.propTypes = {};
+ViewItem.propTypes = { id: PropTypes.string.isRequired };
 
 export const getServerSideProps = async ({ req, params }) => {
   const id = params.id;
@@ -23,5 +37,4 @@ export const getServerSideProps = async ({ req, params }) => {
     },
   };
 };
-
 export default ViewItem;

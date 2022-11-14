@@ -18,7 +18,13 @@ const Item = ({ item }) => {
         hoverable
         cover={<img alt="example" src={`${item.image}`} />}
         style={{ marginBottom: 10 }}
-        onClick={(e) => (location.href = `/item/${item.idx}`)}
+        // actions={[
+        //   <SettingOutlined key="setting" />,
+        //   <EditOutlined key="edit" />,
+        //   <EllipsisOutlined key="ellipsis" />,
+        // ]}
+        // onClick={(e) => (location.href = `/item/${item.idx}`)}
+        onClick={(e) => (location.href = `/item/1`)}
       >
         <div className="category">
           <span>{item.category}</span>
