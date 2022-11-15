@@ -1,0 +1,134 @@
+{
+  "status": "ok",
+  "total_count": 34,
+  "pageable_count": 34,
+  "is_end": false,
+  "body": [
+    {
+      "address": null,
+      "address_name": "부산 금정구 금강로",
+      "address_type": "ROAD",
+      "road_address": {
+        "address_name": "부산 금정구 금강로",
+        "building_name": "",
+        "main_building_no": "",
+        "region_1depth_name": "부산",
+        "region_2depth_name": "금정구",
+        "region_3depth_name": "청룡동",
+        "road_name": "금강로",
+        "sub_building_no": "",
+        "underground_yn": "N",
+        "x": "129.088306466683",
+        "y": "35.2488164462487",
+        "zone_no": ""
+      },
+      "x": "129.088306466683",
+      "y": "35.2488164462487"
+    },
+    {
+      "address": null,
+      "address_name": "부산 금정구 금강로165번길",
+      "address_type": "ROAD",
+      "road_address": {
+        "address_name": "부산 금정구 금강로165번길",
+        "building_name": "",
+        "main_building_no": "",
+        "region_1depth_name": "부산",
+        "region_2depth_name": "금정구",
+        "region_3depth_name": "장전동",
+        "road_name": "금강로165번길",
+        "sub_building_no": "",
+        "underground_yn": "N",
+        "x": "129.079843353981",
+        "y": "35.2243327024232",
+        "zone_no": ""
+      },
+      "x": "129.079843353981",
+      "y": "35.2243327024232"
+    },
+    {
+      "address": null,
+      "address_name": "부산 금정구 금강로194번길",
+      "address_type": "ROAD",
+      "road_address": {
+        "address_name": "부산 금정구 금강로194번길",
+        "building_name": "",
+        "main_building_no": "",
+        "region_1depth_name": "부산",
+        "region_2depth_name": "금정구",
+        "region_3depth_name": "장전동",
+        "road_name": "금강로194번길",
+        "sub_building_no": "",
+        "underground_yn": "N",
+        "x": "129.082947827888",
+        "y": "35.2257455621037",
+        "zone_no": ""
+      },
+      "x": "129.082947827888",
+      "y": "35.2257455621037"
+    },
+    {
+      "address": null,
+      "address_name": "부산 금정구 금강로279번길",
+      "address_type": "ROAD",
+      "road_address": {
+        "address_name": "부산 금정구 금강로279번길",
+        "building_name": "",
+        "main_building_no": "",
+        "region_1depth_name": "부산",
+        "region_2depth_name": "금정구",
+        "region_3depth_name": "장전동",
+        "road_name": "금강로279번길",
+        "sub_building_no": "",
+        "underground_yn": "N",
+        "x": "129.083578021104",
+        "y": "35.2344206096404",
+        "zone_no": ""
+      },
+      "x": "129.083578021104",
+      "y": "35.2344206096404"
+    },
+    {
+      "address": null,
+      "address_name": "부산 금정구 금강로279번안길",
+      "address_type": "ROAD",
+      "road_address": {
+        "address_name": "부산 금정구 금강로279번안길",
+        "building_name": "",
+        "main_building_no": "",
+        "region_1depth_name": "부산",
+        "region_2depth_name": "금정구",
+        "region_3depth_name": "장전동",
+        "road_name": "금강로279번안길",
+        "sub_building_no": "",
+        "underground_yn": "N",
+        "x": "129.084059344874",
+        "y": "35.234649501781",
+        "zone_no": ""
+      },
+      "x": "129.084059344874",
+      "y": "35.234649501781"
+    },
+    {
+      "address": null,
+      "address_name": "부산 금정구 금강로291번길",
+      "address_type": "ROAD",
+      "road_address": {
+        "address_name": "부산 금정구 금강로291번길",
+        "building_name": "",
+        "main_building_no": "",
+        "region_1depth_name": "부산",
+        "region_2depth_name": "금정구",
+        "region_3depth_name": "장전동",
+        "road_name": "금강로291번길",
+        "sub_building_no": "",
+        "underground_yn": "N",
+        "x": "129.085069662145",
+        "y": "35.2342017968164",
+        "zone_no": ""
+      },
+      "x": "129.085069662145",
+      "y": "35.2342017968164"
+    }
+  ]
+}

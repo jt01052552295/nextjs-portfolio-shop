@@ -68,6 +68,9 @@ const Header = () => {
         <Col>
           <Link href="/logout">Logout</Link>
         </Col>
+        <Col>
+          <Link href="/location">Location</Link>
+        </Col>
       </Row>
       <Row
         gutter={16}

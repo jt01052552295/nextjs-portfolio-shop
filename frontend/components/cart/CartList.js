@@ -58,7 +58,7 @@ const CartList = (props) => {
                   {" "}
                   <Checkbox />
                 </Col>
-                <Col xs={6}>{item.name}</Col>
+                <Col xs={6}>{item?.name}</Col>
                 <Col xs={6}>
                   <Input.Group compact>
                     <Button icon={<PlusOutlined />} size="small" />
