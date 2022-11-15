@@ -1,0 +1,22 @@
+{
+  "carts": [
+    {
+      "idx": 1,
+      "item": 1,
+      "stock": 8,
+      "price": 10000
+    },
+    {
+      "idx": 2,
+      "item": 3,
+      "stock": 1,
+      "price": 10000
+    },
+    {
+      "idx": 3,
+      "item": 6,
+      "stock": 2,
+      "price": 10000
+    }
+  ]
+}
