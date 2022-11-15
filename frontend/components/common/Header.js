@@ -51,7 +51,7 @@ const Header = () => {
         style={{ height: 50, padding: 10 }}
       >
         <Col flex={2}>
-          <Link href="/">Logo</Link>
+          <Link href="/">Pza Mall</Link>
         </Col>
         {/* <Col>
           <SearchOutlined />
