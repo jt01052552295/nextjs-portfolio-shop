@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import SingleLayout from "../../components/SingleLayout";
 import Link from "next/link";
 import Image from "next/image";
-
+import axios from "axios";
 import {
   LockOutlined,
   MailOutlined,
+  UserOutlined,
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Row, Col, Layout, Button, Checkbox, Form, Input } from "antd";
+import { makeRandString } from "../../utils";
 
 const tailLayout = {
   wrapperCol: {
@@ -20,9 +22,35 @@ const tailLayout = {
 };
 
 const SignUp = (props) => {
+  const [generateName, setGenerateName] = useState(makeRandString(8));
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    setGenerateName(makeRandString());
+    form.setFieldsValue({
+      name: generateName,
+      email: "test@test.com",
+      password: "1111",
+      confirm: "1111",
+    });
+  }, [form]);
+
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+
+    try {
+      axios
+        .post("/api/user/signup", values)
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => console.error(error.message));
+    } catch (error) {
+      console.log(error);
+      // alert(error.response?.data?.message ?? error.message ?? '서버와 통신에 실패했습니다.');
+    }
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -49,15 +77,35 @@ const SignUp = (props) => {
           <Row>
             <Col xs={16} offset={4}>
               <Form
+                form={form}
                 name="normal_login"
-                className="login-form"
-                initialValues={{
-                  remember: true,
-                }}
+                className="sign-form"
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
+                initialValues={{
+                  agreement: true,
+                  name: generateName,
+                }}
               >
+                <Form.Item
+                  name="name"
+                  rules={[
+                    {
+                      type: "name",
+                      message: "The input is not valid name!",
+                    },
+                    {
+                      required: true,
+                      message: "Please input your name!",
+                    },
+                  ]}
+                >
+                  <Input
+                    prefix={<UserOutlined className="site-form-item-icon" />}
+                    placeholder="name"
+                  />
+                </Form.Item>
                 <Form.Item
                   name="email"
                   rules={[
