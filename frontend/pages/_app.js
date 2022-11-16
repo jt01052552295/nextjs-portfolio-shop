@@ -3,10 +3,17 @@ import PropTypes from "prop-types";
 import "antd/dist/antd.css";
 import "./App.css";
 import Head from "next/head";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
 
 const App = ({ Component, pageProps }) => {
   return (
-    <>
+    <RecoilRoot>
       <Head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -15,7 +22,7 @@ const App = ({ Component, pageProps }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
-    </>
+    </RecoilRoot>
   );
 };
 
