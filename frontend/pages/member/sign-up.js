@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import PropTypes from "prop-types";
 import SingleLayout from "../../components/SingleLayout";
 import Link from "next/link";

@@ -1,12 +1,13 @@
 import { atom, selector } from "recoil";
+import { v1 } from "uuid";
 
 export const newsState = atom({
-  key: "newsState", // 고유키
+  key: `newsState/${v1()}`, // 고유키
   default: [], // 초기값
 });
 
 export const newsSelector = selector({
-  key: "newsSelector", // 고유키
+  key: `newsSelector/${v1()}`, // 고유키
   get: ({ get }) => {
     const news = get(newsState);
     return news;
