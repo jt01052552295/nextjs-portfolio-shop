@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { userState } from "../../atoms";
 
 const Footer = () => {
   const goToTop = () => {
@@ -10,6 +12,12 @@ const Footer = () => {
       behavior: "smooth",
     });
   };
+
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    console.log("footer", user);
+  });
 
   return (
     <footer className="footer">
