@@ -3,23 +3,22 @@ import axios from "axios";
 export default function handler(req, res) {
   switch (req.method) {
     case "POST":
-      return register();
+      return signin();
     default:
       return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 
-  async function register() {
-    const { email, password, name } = req.body;
+  async function signin() {
+    const { email, password } = req.body;
 
     try {
       const send_data = JSON.stringify({
         email: email,
         password: password,
-        name: name,
       });
 
       const result = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/employee/create`,
+        `${process.env.NEXT_PUBLIC_API_URL}/employee/auth`,
         send_data,
         {
           headers: {
@@ -40,7 +39,7 @@ export default function handler(req, res) {
           username: result.data.name,
         });
       } else {
-        res.json({ success: false, message: "가입 실패하였습니다!" });
+        res.json({ success: false, message: "로그인 실패하였습니다!" });
       }
     } catch (e) {
       res.json({ success: false, message: e });

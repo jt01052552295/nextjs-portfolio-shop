@@ -30,6 +30,7 @@ import {
   useResetRecoilState,
 } from "recoil";
 import { userState, USER_ATOM_KEY } from "../atoms";
+import useRouter from "next/router";
 
 const example6 = (props) => {
   const [id, setId] = useState("Sincere@april.biz");

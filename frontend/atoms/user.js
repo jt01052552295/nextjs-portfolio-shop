@@ -11,7 +11,7 @@ const { persistAtom } = recoilPersist({
 
 export const userState = atom({
   key: USER_ATOM_KEY, // 고유키
-  default: {}, // 초기값
+  default: null, // 초기값
   effects_UNSTABLE: [persistAtom],
 });
 

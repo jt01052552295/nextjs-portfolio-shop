@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import SingleLayout from "../../components/SingleLayout";
 import Link from "next/link";
 import Image from "next/image";
-
+import axios from "axios";
 import {
   LockOutlined,
   MailOutlined,
@@ -11,10 +11,57 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Row, Col, Layout, Button, Checkbox, Form, Input } from "antd";
+import {
+  useQuery,
+  useMutation,
+  useQueries,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { userState, USER_ATOM_KEY } from "../../atoms";
+import { useRouter } from "next/router";
 
 const Login = (props) => {
+  const router = useRouter();
+  const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [user, setUserState] = useRecoilState(userState);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      email: "test@test.com",
+      password: "1111",
+    });
+  }, [form]);
+
+  const loginMutation = useMutation(
+    async (variable) => {
+      // console.log("async", variable);
+      return await axios.post("/api/user/signin", variable);
+    },
+    {
+      onMutate: (variable) => {
+        console.log("onMutate", variable);
+        // variable : {loginId: 'xxx', password; 'xxx'}
+      },
+      onError: (error, variable, context) => {
+        // error
+      },
+      onSuccess: (data, variables, context) => {
+        //console.log(data);
+        setUserState(data.data);
+        const returnUrl = router.query.returnUrl || "/";
+        router.replace(returnUrl);
+      },
+      onSettled: () => {
+        console.log("end");
+      },
+    }
+  );
+
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    loginMutation.mutate(values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -35,6 +82,7 @@ const Login = (props) => {
                   alt="Logo"
                   width={283}
                   height={64}
+                  style={{ maxWidth: "100%" }}
                 />
               </Link>
             </Col>
@@ -42,6 +90,7 @@ const Login = (props) => {
           <Row>
             <Col xs={16} offset={4}>
               <Form
+                form={form}
                 name="normal_login"
                 className="login-form"
                 initialValues={{
@@ -101,6 +150,7 @@ const Login = (props) => {
                     type="primary"
                     htmlType="submit"
                     className="login-form-button"
+                    loading={loginMutation.isLoading}
                   >
                     Log in
                   </Button>

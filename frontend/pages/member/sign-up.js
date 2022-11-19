@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "react-query";
 import PropTypes from "prop-types";
 import SingleLayout from "../../components/SingleLayout";
 import Link from "next/link";
@@ -14,6 +13,15 @@ import {
 } from "@ant-design/icons";
 import { Row, Col, Layout, Button, Checkbox, Form, Input } from "antd";
 import { makeRandString } from "../../utils";
+import {
+  useQuery,
+  useMutation,
+  useQueries,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { userState, USER_ATOM_KEY } from "../../atoms";
+import { useRouter } from "next/router";
 
 const tailLayout = {
   wrapperCol: {
@@ -23,8 +31,16 @@ const tailLayout = {
 };
 
 const SignUp = (props) => {
+  const router = useRouter();
   const [generateName, setGenerateName] = useState(makeRandString(8));
   const [form] = Form.useForm();
+  const [user, setUserState] = useRecoilState(userState);
+
+  // useEffect(() => {
+  //   if (user) {
+  //     router.replace("/");
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     setGenerateName(makeRandString());
@@ -36,20 +52,34 @@ const SignUp = (props) => {
     });
   }, [form]);
 
+  const loginMutation = useMutation(
+    async (variable) => {
+      // console.log("async", variable);
+      return await axios.post("/api/user/signup", variable);
+    },
+    {
+      onMutate: (variable) => {
+        console.log("onMutate", variable);
+        // variable : {loginId: 'xxx', password; 'xxx'}
+      },
+      onError: (error, variable, context) => {
+        // error
+      },
+      onSuccess: (data, variables, context) => {
+        //console.log(data);
+        setUserState(data.data);
+        const returnUrl = router.query.returnUrl || "/";
+        router.replace(returnUrl);
+      },
+      onSettled: () => {
+        console.log("end");
+      },
+    }
+  );
+
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
-
-    try {
-      axios
-        .post("/api/user/signup", values)
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((error) => console.error(error.message));
-    } catch (error) {
-      console.log(error);
-      // alert(error.response?.data?.message ?? error.message ?? '서버와 통신에 실패했습니다.');
-    }
+    loginMutation.mutate(values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -192,7 +222,11 @@ const SignUp = (props) => {
                 </Form.Item>
 
                 <Form.Item {...tailLayout}>
-                  <Button type="primary" htmlType="submit">
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    loading={loginMutation.isLoading}
+                  >
                     Register
                   </Button>
                   {` `}
