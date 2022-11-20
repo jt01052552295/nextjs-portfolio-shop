@@ -38,34 +38,35 @@ const Header = () => {
   const user2 = useRecoilValue(userSelector);
   const address = useRecoilValue(addressSelector);
 
-  useEffect(() => {
-    // console.log(address);
-    // console.log("header-user", user);
+  const [addressText, setAddressText] = useState("Location");
 
+  useEffect(() => {
+    if (address?.address2) {
+      setAddressText(address?.address2);
+    }
+  }, [address]);
+
+  useEffect(() => {
+    authCheck(router.asPath);
     router.events.on("routeChangeStart", (url, { shallow }) => {
       // console.log(`routing to ${url}`, `is shallow routing: ${shallow}`);
     });
 
-    router.events.on("routeChangeComplete", (url) => {
-      const publicPaths = ["/member/login", "/member/sign-up"];
-      const path = url.split("?")[0];
+    router.events.on("routeChangeComplete", authCheck);
 
-      // console.log("user", user, publicPaths.includes(path));
-      // console.log("user2", user2, publicPaths.includes(path));
-
-      // console.log(`completely routed to ${url}`, publicPaths.includes(path))
-      if (user && publicPaths.includes(path)) {
-        router.replace("/");
-      }
-
-      // if (!user && !publicPaths.includes(path)) {
-      //   router.push({
-      //     pathname: "/member/login",
-      //     query: { returnUrl: router.asPath },
-      //   });
-      // }
-    });
+    return () => {
+      router.events.off("routeChangeComplete", authCheck);
+    };
   }, []);
+
+  function authCheck(url) {
+    const publicPaths = ["/member/login", "/member/sign-up"];
+    const path = url.split("?")[0];
+
+    if (user && publicPaths.includes(path)) {
+      router.replace("/");
+    }
+  }
 
   const onSearch = useCallback(() => {
     if (searchInput) {
@@ -88,6 +89,7 @@ const Header = () => {
     Promise.allSettled([setUserState(null)])
       .then((results) => {
         localStorage.removeItem(USER_ATOM_KEY);
+        router.replace("/");
       })
       .catch((error) => {
         console.error(error);
@@ -106,9 +108,6 @@ const Header = () => {
         <Col flex={2}>
           <Link href="/">Pza Mall</Link>
         </Col>
-        {/* <Col>
-          <SearchOutlined />
-        </Col> */}
 
         {!user && (
           <Space>
@@ -131,8 +130,8 @@ const Header = () => {
         </Col>
         <Col>
           <Link href="/location">
-            <EnvironmentOutlined />{" "}
-            {address?.address2 ? address?.address2 : "Location"}
+            <EnvironmentOutlined />
+            {` ${addressText}`}
           </Link>
         </Col>
         {user && (
