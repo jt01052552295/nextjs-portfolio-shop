@@ -11,12 +11,7 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { Row, Col, Layout, Button, Checkbox, Form, Input } from "antd";
-import {
-  useQuery,
-  useMutation,
-  useQueries,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { userState, USER_ATOM_KEY } from "../../atoms";
 import { useRouter } from "next/router";
@@ -24,7 +19,6 @@ import { useRouter } from "next/router";
 const Login = (props) => {
   const router = useRouter();
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
   const [user, setUserState] = useRecoilState(userState);
 
   useEffect(() => {

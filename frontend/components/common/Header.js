@@ -8,7 +8,12 @@ const { Option } = Select;
 import { ShoppingCartOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import useInput from "../../hooks/useInput";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { userState, userSelector, USER_ATOM_KEY } from "../../atoms";
+import {
+  userState,
+  userSelector,
+  USER_ATOM_KEY,
+  addressSelector,
+} from "../../atoms";
 
 const options = [];
 options.push({
@@ -31,21 +36,22 @@ const Header = () => {
   const router = useRouter();
   const [user, setUserState] = useRecoilState(userState);
   const user2 = useRecoilValue(userSelector);
+  const address = useRecoilValue(addressSelector);
 
   useEffect(() => {
-    // console.log(router.asPath);
+    // console.log(address);
     // console.log("header-user", user);
 
     router.events.on("routeChangeStart", (url, { shallow }) => {
-      console.log(`routing to ${url}`, `is shallow routing: ${shallow}`);
+      // console.log(`routing to ${url}`, `is shallow routing: ${shallow}`);
     });
 
     router.events.on("routeChangeComplete", (url) => {
       const publicPaths = ["/member/login", "/member/sign-up"];
       const path = url.split("?")[0];
 
-      console.log("user", user, publicPaths.includes(path));
-      console.log("user2", user2, publicPaths.includes(path));
+      // console.log("user", user, publicPaths.includes(path));
+      // console.log("user2", user2, publicPaths.includes(path));
 
       // console.log(`completely routed to ${url}`, publicPaths.includes(path))
       if (user && publicPaths.includes(path)) {
@@ -125,7 +131,8 @@ const Header = () => {
         </Col>
         <Col>
           <Link href="/location">
-            <EnvironmentOutlined /> Location
+            <EnvironmentOutlined />{" "}
+            {address?.address2 ? address?.address2 : "Location"}
           </Link>
         </Col>
         {user && (
