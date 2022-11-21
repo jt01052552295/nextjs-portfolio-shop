@@ -10,6 +10,8 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 
+const formatter = Intl.NumberFormat("ko-kr");
+
 const Item = ({ item }) => {
   return (
     <Col span={12}>
@@ -23,15 +25,14 @@ const Item = ({ item }) => {
         //   <EditOutlined key="edit" />,
         //   <EllipsisOutlined key="ellipsis" />,
         // ]}
-        // onClick={(e) => (location.href = `/item/${item.idx}`)}
-        onClick={(e) => (location.href = `/item/1`)}
+        onClick={(e) => (location.href = `/item/${item.idx}`)}
       >
         <div className="category">
           <span>{item.category}</span>
         </div>
 
         <div className="item_price">
-          <span className="price">{item.price}</span>
+          <span className="price">{formatter.format(item.price)}</span>
           <span className="unit">원</span>
         </div>
       </Card>

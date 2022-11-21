@@ -4,18 +4,63 @@ import Link from "next/link";
 import axios from "axios";
 import ItemSkeleton from "./ItemSkeleton";
 import Item from "./Item";
-import { Button, Radio, Row, Col } from "antd";
+import { Button, Radio, Row, Col, Typography, Space } from "antd";
+const { Paragraph, Text } = Typography;
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { searchState, SEARCH_ATOM_KEY } from "../../atoms";
 
-const itemsJson = "/mock/items.json";
 const Items = (props) => {
   const [size, setSize] = useState("idx");
   const [items, setItems] = useState([]);
+  const search = useRecoilValue(searchState);
+
+  const { isLoading: isLoading, refetch: getLists } = useQuery(
+    ["items"],
+    async () => {
+      return await axios.get("/api/item/list");
+    },
+    {
+      enabled: true,
+      onSuccess: (res, variable) => {
+        const result = {
+          status: res.status,
+          headers: res.headers,
+          data: res.data,
+        };
+
+        if (search) {
+          console.log("variable", search.searchInput);
+          let arr = [...res.data.items];
+          let afterSearch = arr.filter(
+            (x) => x.name.indexOf(search.searchInput) > -1
+          );
+          setItems(afterSearch);
+        } else {
+          setItems(res.data.items);
+        }
+      },
+      onError: (err) => {
+        console.error(err.response?.data || err);
+      },
+    }
+  );
+
   useEffect(() => {
-    axios(itemsJson).then((res) => {
-      // console.log(res.data.items);
-      setItems(res.data.items);
-    });
-  }, []);
+    if (isLoading) console.log("loading...");
+  }, [isLoading]);
+
+  useEffect(() => {
+    getAllData();
+  }, [search]);
+
+  function getAllData() {
+    try {
+      getLists();
+    } catch (err) {
+      console.error(err.response?.data || err);
+    }
+  }
 
   useEffect(() => {
     let arr = [...items];
@@ -48,7 +93,7 @@ const Items = (props) => {
 
       <div className="site-card-wrapper">
         <Row gutter={16}>
-          {items.length === 0 &&
+          {isLoading &&
             Array.from(Array(12)).map((i) => {
               let ran = Math.random();
               return <ItemSkeleton key={`key-${ran}`} />;
@@ -57,6 +102,21 @@ const Items = (props) => {
             items.map((item) => {
               return <Item key={`key-${item.idx}`} item={item} />;
             })}
+          {items.length === 0 && (
+            <Space style={{ background: "#fff", padding: 10 }}>
+              <Paragraph>
+                <Text
+                  strong
+                  style={{
+                    fontSize: 16,
+                  }}
+                >
+                  검색결과가 없습니다.
+                </Text>
+              </Paragraph>
+              <Paragraph>다른 상품명으로 검색해주세요.</Paragraph>
+            </Space>
+          )}
         </Row>
       </div>
     </div>

@@ -2,9 +2,10 @@ import React, { useCallback, useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import { Row, Col, Input, Select, Badge, Space } from "antd";
+import { Row, Col, Input, Select, Badge, Space, Typography } from "antd";
 const { Search } = Input;
 const { Option } = Select;
+const { Text } = Typography;
 import { ShoppingCartOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import useInput from "../../hooks/useInput";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -13,6 +14,8 @@ import {
   userSelector,
   USER_ATOM_KEY,
   addressSelector,
+  searchState,
+  SEARCH_ATOM_KEY,
 } from "../../atoms";
 
 const options = [];
@@ -30,13 +33,15 @@ options.push({
 });
 
 const Header = () => {
-  const [searchInput, onChangeSearchInput] = useInput("");
+  const [searchInput, onChangeSearchInput] = useState("");
   const [searchSelect, onChangeSearchSelect] = useState("전체");
   const selectRef = useRef(null);
   const router = useRouter();
   const [user, setUserState] = useRecoilState(userState);
   const user2 = useRecoilValue(userSelector);
   const address = useRecoilValue(addressSelector);
+
+  const [search, setSearchState] = useRecoilState(searchState);
 
   const [addressText, setAddressText] = useState("Location");
 
@@ -68,16 +73,22 @@ const Header = () => {
     }
   }
 
-  const onSearch = useCallback(() => {
-    if (searchInput) {
-      console.log("검색", searchSelect, searchInput);
-      router.push(`/search/${searchInput}`);
+  const onSearch = (value) => {
+    if (value) {
+      setSearchState({ searchSelect: searchSelect, searchInput: searchInput });
     } else {
-      alert("검색어를 입력하세요");
-      selectRef.current.focus();
-      return false;
+      setSearchState({ searchSelect: searchSelect, searchInput: "" });
     }
-  }, [searchInput, searchSelect]);
+    // if (searchInput) {
+    //   // console.log("검색", searchSelect, searchInput);
+    //   setSearchState({ searchSelect: searchSelect, searchInput: searchInput });
+    //   // router.push(`/search/${searchInput}`);
+    // } else {
+    //   alert("검색어를 입력하세요");
+    //   selectRef.current.focus();
+    //   return false;
+    // }
+  };
 
   const handleChange = useCallback((value) => {
     onChangeSearchSelect(value);
@@ -131,7 +142,10 @@ const Header = () => {
         <Col>
           <Link href="/location">
             <EnvironmentOutlined />
-            {` ${addressText}`}
+            <Text
+              style={{ maxWidth: 80, color: "inherit" }}
+              ellipsis={true}
+            >{` ${addressText}`}</Text>
           </Link>
         </Col>
         {user && (
@@ -161,7 +175,7 @@ const Header = () => {
             allowClear
             onSearch={onSearch}
             value={searchInput}
-            onChange={onChangeSearchInput}
+            onChange={(e) => onChangeSearchInput(e.target.value)}
             ref={selectRef}
           />
         </Col>
