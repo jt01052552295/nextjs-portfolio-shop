@@ -22,6 +22,12 @@ const Login = (props) => {
   const [user, setUserState] = useRecoilState(userState);
 
   useEffect(() => {
+    if (user) {
+      router.replace("/");
+    }
+  }, [user]);
+
+  useEffect(() => {
     form.setFieldsValue({
       email: "test@test.com",
       password: "1111",

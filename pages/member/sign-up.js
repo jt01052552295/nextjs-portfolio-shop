@@ -36,11 +36,11 @@ const SignUp = (props) => {
   const [form] = Form.useForm();
   const [user, setUserState] = useRecoilState(userState);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.replace("/");
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      router.replace("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     setGenerateName(makeRandString());
