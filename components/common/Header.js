@@ -16,6 +16,7 @@ import {
   addressSelector,
   searchState,
   SEARCH_ATOM_KEY,
+  cartListStatsState,
 } from "../../atoms";
 
 const options = [];
@@ -40,10 +41,15 @@ const Header = () => {
   const [user, setUserState] = useRecoilState(userState);
   const user2 = useRecoilValue(userSelector);
   const address = useRecoilValue(addressSelector);
-
   const [search, setSearchState] = useRecoilState(searchState);
-
   const [addressText, setAddressText] = useState("Location");
+
+  const { totalNum } = useRecoilValue(cartListStatsState);
+  const [cartTotalNum, setCartTotalNum] = useState(0);
+
+  useEffect(() => {
+    setCartTotalNum(totalNum);
+  }, [totalNum]);
 
   useEffect(() => {
     if (address?.address2) {
@@ -132,7 +138,7 @@ const Header = () => {
         )}
         <Col>
           <Link href="/cart">
-            <Badge count={5} size="small">
+            <Badge count={cartTotalNum} size="small">
               <ShoppingCartOutlined
                 style={{ fontSize: "18px", color: "#1890ff" }}
               />

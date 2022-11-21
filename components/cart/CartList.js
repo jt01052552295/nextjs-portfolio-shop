@@ -13,19 +13,27 @@ import {
   Checkbox,
 } from "antd";
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { cartListStatsState } from "../../atoms";
+import { useItems } from "../../query/item";
 
-const cartsJson = "/mock/carts.json";
-const itemsJson = "/mock/items.json";
+const formatter = Intl.NumberFormat("ko-kr");
+
 const CartList = (props) => {
+  const { cartList } = useRecoilValue(cartListStatsState);
+  const [cartTotalNum, setCartTotalNum] = useState(0);
+
   const [carts, setCarts] = useState([]);
   const [items, setItems] = useState([]);
+
+  const { isLoading: isLoading, data: data } = useItems();
+
   useEffect(() => {
-    axios(cartsJson).then((res) => {
-      setCarts(res.data.carts);
-    });
-    axios(itemsJson).then((res) => {
-      setItems(res.data.items);
-    });
+    setItems(data.data.items);
+  }, [data]);
+
+  useEffect(() => {
+    setCarts(cartList);
   }, []);
 
   const checkAll = (e) => {
@@ -45,15 +53,15 @@ const CartList = (props) => {
           </Col>
           <Col xs={6}>상품정보</Col>
           <Col xs={6}>수량</Col>
-          <Col xs={6}>상품금액</Col>
+          <Col xs={6}>상품금액(원)</Col>
         </Row>
 
         {carts.length > 0 &&
-          carts.map((cart) => {
+          carts.map((cart, key) => {
             let item = items.find((x) => x.idx === cart.item);
 
             return (
-              <Row key={`key-${cart.idx}`} gutter={16} style={{ padding: 10 }}>
+              <Row key={`key-${key}`} gutter={16} style={{ padding: 10 }}>
                 <Col xs={6}>
                   {" "}
                   <Checkbox />
@@ -71,7 +79,7 @@ const CartList = (props) => {
                   </Input.Group>
                 </Col>
                 <Col xs={6}>
-                  {cart.price}{" "}
+                  {formatter.format(cart.price)}{" "}
                   <Button
                     size="small"
                     type="primary"

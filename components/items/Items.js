@@ -9,58 +9,43 @@ const { Paragraph, Text } = Typography;
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchState, SEARCH_ATOM_KEY } from "../../atoms";
+import { useItems } from "../../query/item";
 
 const Items = (props) => {
   const [size, setSize] = useState("idx");
   const [items, setItems] = useState([]);
   const search = useRecoilValue(searchState);
 
-  const { isLoading: isLoading, refetch: getLists } = useQuery(
-    ["items"],
-    async () => {
-      return await axios.get("/api/item/list");
-    },
-    {
-      enabled: true,
-      onSuccess: (res, variable) => {
-        const result = {
-          status: res.status,
-          headers: res.headers,
-          data: res.data,
-        };
-
-        if (search) {
-          console.log("variable", search.searchInput);
-          let arr = [...res.data.items];
-          let afterSearch = arr.filter(
-            (x) => x.name.indexOf(search.searchInput) > -1
-          );
-          setItems(afterSearch);
-        } else {
-          setItems(res.data.items);
-        }
-      },
-      onError: (err) => {
-        console.error(err.response?.data || err);
-      },
-    }
-  );
+  const { isLoading: isLoading, refetch: getLists, data: data } = useItems();
 
   useEffect(() => {
     if (isLoading) console.log("loading...");
   }, [isLoading]);
 
   useEffect(() => {
+    if (search) {
+      console.log("variable", search.searchInput);
+      let arr = [...data.data.items];
+      let afterSearch = arr.filter(
+        (x) => x.name.indexOf(search.searchInput) > -1
+      );
+      setItems(afterSearch);
+    } else {
+      setItems(data.data.items);
+    }
+  }, [data]);
+
+  useEffect(() => {
     getAllData();
   }, [search]);
 
-  function getAllData() {
+  const getAllData = () => {
     try {
       getLists();
     } catch (err) {
       console.error(err.response?.data || err);
     }
-  }
+  };
 
   useEffect(() => {
     let arr = [...items];
