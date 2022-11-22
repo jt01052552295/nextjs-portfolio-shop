@@ -12,32 +12,44 @@ import {
   Divider,
   Checkbox,
 } from "antd";
-import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { cartListStatsState } from "../../atoms";
+import { cartListState, cartListStatsState } from "../../atoms";
 import { useItems } from "../../query/item";
+import CartRow from "./CartRow";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
 const CartList = (props) => {
-  const { cartList } = useRecoilValue(cartListStatsState);
+  const { cartList, totalStock, totalPrice } =
+    useRecoilValue(cartListStatsState);
+  const [cartData, setCartData] = useRecoilState(cartListState);
   const [cartTotalNum, setCartTotalNum] = useState(0);
+  const [cartTotalStock, setCartTotalStock] = useState(0);
+  const [cartTotalPrice, setCartTotalPrice] = useState(0);
+
+  const { isLoading: isLoading, status: status, data: data } = useItems();
 
   const [carts, setCarts] = useState([]);
   const [items, setItems] = useState([]);
 
-  const { isLoading: isLoading, data: data } = useItems();
-
   useEffect(() => {
-    setItems(data.data.items);
-  }, [data]);
+    if (status === "success") {
+      setItems(data?.data.items);
+    }
+  }, [status]);
 
   useEffect(() => {
     setCarts(cartList);
-  }, []);
+    setCartTotalStock(totalStock);
+    setCartTotalPrice(totalPrice);
+  }, [cartData]);
 
   const checkAll = (e) => {
     console.log(`checkAll = ${e.target.checked}`);
+  };
+
+  const checkDelete = (e) => {
+    console.log(`checkDelete `);
   };
 
   return (
@@ -49,71 +61,51 @@ const CartList = (props) => {
         <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={6}>
             <Checkbox onChange={checkAll} />{" "}
-            <Button size="small">선택삭제</Button>
+            <Button size="small" onClick={checkDelete}>
+              선택삭제
+            </Button>
           </Col>
           <Col xs={6}>상품정보</Col>
           <Col xs={6}>수량</Col>
           <Col xs={6}>상품금액(원)</Col>
         </Row>
 
+        {carts.length === 0 && (
+          <Row gutter={16} style={{ padding: 10 }}>
+            <Col xs={24}>담긴 상품이 없습니다.</Col>
+          </Row>
+        )}
+
         {carts.length > 0 &&
           carts.map((cart, key) => {
-            let item = items.find((x) => x.idx === cart.item);
+            let item = items?.find((x) => x.idx === cart.item);
 
-            return (
-              <Row key={`key-${key}`} gutter={16} style={{ padding: 10 }}>
-                <Col xs={6}>
-                  {" "}
-                  <Checkbox />
-                </Col>
-                <Col xs={6}>{item?.name}</Col>
-                <Col xs={6}>
-                  <Input.Group compact>
-                    <Button icon={<PlusOutlined />} size="small" />
-                    <Input
-                      style={{ width: "40px", textAlign: "center" }}
-                      defaultValue={cart.stock}
-                      size="small"
-                    />
-                    <Button icon={<MinusOutlined />} size="small" />
-                  </Input.Group>
-                </Col>
-                <Col xs={6}>
-                  {formatter.format(cart.price)}{" "}
-                  <Button
-                    size="small"
-                    type="primary"
-                    icon={<DeleteOutlined />}
-                    danger
-                  />
-                </Col>
-              </Row>
-            );
+            return <CartRow key={key} item={item} cart={cart} />;
           })}
 
         <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={24}>
             <Card title="장바구니 정보">
-              <Card type="inner" title="전체 상품금액">
-                111
+              <Card type="inner" title="전체 상품금액(원)">
+                {formatter.format(cartTotalPrice)}
               </Card>
               <Card
                 style={{
                   marginTop: 16,
                 }}
                 type="inner"
-                title="전체 수량"
+                title="전체 수량(개)"
               >
-                111
+                {cartTotalStock}
               </Card>
               <Card
                 style={{
                   marginTop: 16,
                 }}
                 type="inner"
-                title="결제 예정 금액"
+                title="결제 예정 금액(원)"
               >
-                222
+                {formatter.format(cartTotalPrice)}
               </Card>
             </Card>
           </Col>

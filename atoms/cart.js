@@ -22,13 +22,14 @@ export const cartListStatsState = selector({
   get: ({ get }) => {
     const cartList = get(cartListState);
     const totalNum = cartList.length;
-    //   const totalPrice = todoList.filter((item) => item.isComplete).length;
-    //   const totalCount = totalNum - totalCompletedNum;
-    //   const percentCompleted = totalNum === 0 ? 0 : totalCompletedNum / totalNum * 100;
+    const totalStock = cartList.reduce((a, c) => a + c.stock, 0);
+    const totalPrice = cartList.reduce((a, c) => a + c.price, 0);
 
     return {
       totalNum,
       cartList,
+      totalStock,
+      totalPrice,
     };
   },
 });

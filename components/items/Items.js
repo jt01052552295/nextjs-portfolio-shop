@@ -31,7 +31,7 @@ const Items = (props) => {
       );
       setItems(afterSearch);
     } else {
-      setItems(data.data.items);
+      setItems(data?.data.items);
     }
   }, [data]);
 

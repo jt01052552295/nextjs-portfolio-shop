@@ -14,39 +14,23 @@ const ItemDetail = ({ item }) => {
   const [itemPrice, setItemPrice] = useState(0);
 
   useEffect(() => {
-    console.log("ItemDetail", item);
     setItemPrice(item.price);
   }, [item]);
 
-  // 함수가 매번 만들어지는게 아닌, 특정 시점에서 함수가 만들어짐. (orderData가 변경될때만)
   const add = useCallback(() => {
     setItemCount(itemCount + 1);
-    // let price = itemCount * item.price;
-    // setItemPrice(price);
-    // setOrderData({ ...orderData, [key]: orderData[key] + 1 });
   }, [itemCount]);
 
   const remove = useCallback(() => {
     if (itemCount > 1) {
       setItemCount(itemCount - 1);
-      // let price = itemCount * item.price;
-      // setItemPrice(price);
     }
-    // setOrderData({ ...orderData, [key]: orderData[key] - 1 });
   }, [itemCount]);
 
   useEffect(() => {
     let price = itemCount * item.price;
     setItemPrice(price);
   }, [itemCount]);
-
-  // useEffect(() => {
-  //   //console.log(item, itemCount, itemPrice);
-  //   if (item) {
-  //     let obj = { item: item.idx, stock: itemCount, price: itemPrice };
-  //     // setCartData({ ...cartData, obj });
-  //   }
-  // }, [itemPrice]);
 
   const addCartItem = () => {
     if (confirm("장바구니에 추가하시겠습니까?")) {
