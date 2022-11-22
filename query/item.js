@@ -1,8 +1,6 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
-// { isLoading: isLoading, refetch: getLists }
-
 export const useItems = () =>
   useQuery(
     ["items"],
