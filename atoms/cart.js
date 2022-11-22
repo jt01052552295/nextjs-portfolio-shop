@@ -4,6 +4,8 @@ import { recoilPersist } from "recoil-persist";
 
 export const CART_LIST = `CART_LIST`;
 export const CART_LIST_STATS = `CART_LIST_STATS`;
+export const CART_LIST_CHECKED = `CART_LIST_CHECKED`;
+
 export const CART_LIST_FILTER = `CartListFilter`;
 export const FILTER_CART_LIST = `FilteredCartList`;
 
@@ -32,6 +34,11 @@ export const cartListStatsState = selector({
       totalPrice,
     };
   },
+});
+
+export const cartListCheckedState = atom({
+  key: CART_LIST_CHECKED,
+  default: [],
 });
 
 // export const cartListFilterState = atom({

@@ -34,7 +34,11 @@ const ItemDetail = ({ item }) => {
 
   const addCartItem = () => {
     if (confirm("장바구니에 추가하시겠습니까?")) {
-      let obj = { item: item.idx, stock: itemCount, price: itemPrice };
+      let obj = {
+        item: item.idx,
+        stock: itemCount,
+        price: itemPrice,
+      };
 
       let item_index = cartData.findIndex((x) => x.item === obj.item);
 

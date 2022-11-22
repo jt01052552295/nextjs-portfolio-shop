@@ -13,7 +13,11 @@ import {
   Checkbox,
 } from "antd";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { cartListState, cartListStatsState } from "../../atoms";
+import {
+  cartListState,
+  cartListStatsState,
+  cartListCheckedState,
+} from "../../atoms";
 import { useItems } from "../../query/item";
 import CartRow from "./CartRow";
 
@@ -26,6 +30,8 @@ const CartList = (props) => {
   const [cartTotalNum, setCartTotalNum] = useState(0);
   const [cartTotalStock, setCartTotalStock] = useState(0);
   const [cartTotalPrice, setCartTotalPrice] = useState(0);
+
+  const [cartChecked, setCartChecked] = useRecoilState(cartListCheckedState);
 
   const { isLoading: isLoading, status: status, data: data } = useItems();
 
@@ -45,11 +51,17 @@ const CartList = (props) => {
   }, [cartData]);
 
   const checkAll = (e) => {
-    console.log(`checkAll = ${e.target.checked}`);
+    let arr = [...cartChecked];
+    const newArr = arr.map((x) => {
+      return e.target.checked;
+    });
+    setCartChecked(newArr);
   };
 
   const checkDelete = (e) => {
     console.log(`checkDelete `);
+    console.log(cartChecked);
+    console.log(cartList);
   };
 
   return (
@@ -80,7 +92,7 @@ const CartList = (props) => {
           carts.map((cart, key) => {
             let item = items?.find((x) => x.idx === cart.item);
 
-            return <CartRow key={key} item={item} cart={cart} />;
+            return <CartRow key={key} rowkey={key} item={item} cart={cart} />;
           })}
 
         <Row gutter={16} style={{ padding: 10 }}>

@@ -15,26 +15,30 @@ import {
 } from "antd";
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { cartListState, cartListStatsState } from "../../atoms";
+import {
+  cartListState,
+  cartListStatsState,
+  cartListCheckedState,
+} from "../../atoms";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
-const CartRow = ({ item, cart }) => {
+const CartRow = ({ rowkey, item, cart }) => {
   const [index, setIndex] = useState(null);
   const [cartData, setCartData] = useRecoilState(cartListState);
   const { cartList } = useRecoilValue(cartListStatsState);
+  const [cartChecked, setCartChecked] = useRecoilState(cartListCheckedState);
 
   useEffect(() => {
     setIndex(item?.idx);
   }, []);
 
   const checkRow = (e) => {
-    if (e.target.checked) {
-      const find_index = cartList.findIndex((x) => x.item === cart.item);
-      console.log(cart);
-      console.log(item);
-      console.log(find_index);
-    }
+    const isChecked = e.target.checked;
+    const find_index = cartList.findIndex((x) => x.item === cart.item);
+    let arr = [...cartChecked];
+    arr[find_index] = isChecked;
+    setCartChecked(arr);
   };
 
   const addStockRow = (e) => {
@@ -82,10 +86,11 @@ const CartRow = ({ item, cart }) => {
 
   if (item) {
     return (
-      <Row key={`key-${item?.idx}`} gutter={16} style={{ padding: 10 }}>
+      <Row gutter={16} style={{ padding: 10 }}>
         <Col xs={6}>
           {" "}
-          <Checkbox onChange={checkRow} /> {item?.idx}
+          <Checkbox onChange={checkRow} checked={cartChecked[rowkey]} />{" "}
+          {item?.idx}
         </Col>
         <Col xs={6}>{item?.name}</Col>
         <Col xs={6}>
