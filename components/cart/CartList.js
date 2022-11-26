@@ -51,7 +51,7 @@ const CartList = (props) => {
   }, [cartData]);
 
   const checkAll = (e) => {
-    let arr = [...cartChecked];
+    let arr = [...cartData];
     const newArr = arr.map((x) => {
       return e.target.checked;
     });
@@ -59,9 +59,30 @@ const CartList = (props) => {
   };
 
   const checkDelete = (e) => {
-    console.log(`checkDelete `);
-    console.log(cartChecked);
-    console.log(cartList);
+    let arr = [...cartChecked];
+    let newList = [...cartList];
+
+    let checkArr = arr.filter((x) => x === true);
+    if (checkArr.length <= 0) {
+      alert("삭제할 상품을 선택하세요.");
+      return false;
+    }
+
+    let delArr = arr
+      .reduce((a, c, key) => (c === true ? a.concat(key) : a), [])
+      .map((x) => {
+        return newList[x];
+      });
+
+    let diffrence = newList.filter((x) => !delArr.includes(x));
+    setCartData(diffrence);
+    setCartChecked([]);
+  };
+
+  const goOrder = (e) => {
+    if (!confirm("장바구니상품을 주문 하시겠습니까?")) return false;
+
+    console.log("order");
   };
 
   return (
@@ -124,7 +145,7 @@ const CartList = (props) => {
         </Row>
         <Row gutter={16}>
           <Col xs={6} offset={9}>
-            <Button type="primary" block>
+            <Button type="primary" block onClick={goOrder}>
               주문하기
             </Button>
           </Col>
