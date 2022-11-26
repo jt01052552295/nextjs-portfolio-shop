@@ -17,6 +17,7 @@ import {
   cartListState,
   cartListStatsState,
   cartListCheckedState,
+  orderListState,
 } from "../../atoms";
 import { useItems } from "../../query/item";
 import CartRow from "./CartRow";
@@ -37,6 +38,8 @@ const CartList = (props) => {
 
   const [carts, setCarts] = useState([]);
   const [items, setItems] = useState([]);
+
+  const [, setOrderData] = useRecoilState(orderListState);
 
   useEffect(() => {
     if (status === "success") {
@@ -81,8 +84,10 @@ const CartList = (props) => {
 
   const goOrder = (e) => {
     if (!confirm("장바구니상품을 주문 하시겠습니까?")) return false;
-
     console.log("order");
+    let arr = [...cartData];
+    console.log(arr);
+    setOrderData(arr);
   };
 
   return (
