@@ -103,27 +103,32 @@ const CartList = (props) => {
               선택삭제
             </Button>
           </Col>
-          <Col xs={6}>상품정보</Col>
-          <Col xs={6}>수량</Col>
-          <Col xs={6}>상품금액(원)</Col>
         </Row>
-
-        {carts.length === 0 && (
-          <Row gutter={16} style={{ padding: 10 }}>
-            <Col xs={24}>담긴 상품이 없습니다.</Col>
-          </Row>
-        )}
-
-        {carts.length > 0 &&
-          carts.map((cart, key) => {
-            let item = items?.find((x) => x.idx === cart.item);
-
-            return <CartRow key={key} rowkey={key} item={item} cart={cart} />;
-          })}
 
         <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={24}>
-            <Card title="장바구니 정보">
+            <Card title="담긴 상품">
+              {carts.length === 0 && (
+                <Row gutter={16} style={{ padding: 10 }}>
+                  <Col xs={24}>담긴 상품이 없습니다.</Col>
+                </Row>
+              )}
+
+              {carts.length > 0 &&
+                carts.map((cart, key) => {
+                  let item = items?.find((x) => x.idx === cart.item);
+
+                  return (
+                    <CartRow key={key} rowkey={key} item={item} cart={cart} />
+                  );
+                })}
+            </Card>
+          </Col>
+        </Row>
+
+        <Row gutter={16} style={{ padding: 10 }}>
+          <Col xs={24}>
+            <Card title="금액 내역">
               <Card type="inner" title="전체 상품금액(원)">
                 {formatter.format(cartTotalPrice)}
               </Card>

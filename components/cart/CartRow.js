@@ -9,10 +9,11 @@ import {
   Button,
   Space,
   Input,
-  InputNumber,
+  Avatar,
   Skeleton,
   Checkbox,
 } from "antd";
+const { Meta } = Card;
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
@@ -86,14 +87,14 @@ const CartRow = ({ rowkey, item, cart }) => {
 
   if (item) {
     return (
-      <Row gutter={16} style={{ padding: 10 }}>
-        <Col xs={6}>
-          {" "}
-          <Checkbox onChange={checkRow} checked={cartChecked[rowkey]} />{" "}
-          {item?.idx}
-        </Col>
-        <Col xs={6}>{item?.name}</Col>
-        <Col xs={6}>
+      <Card
+        type="inner"
+        title={item?.name}
+        style={{
+          marginBottom: 16,
+        }}
+        actions={[
+          <Checkbox onChange={checkRow} checked={cartChecked[rowkey]} />,
           <Input.Group compact>
             <Button
               icon={<PlusOutlined />}
@@ -111,23 +112,30 @@ const CartRow = ({ rowkey, item, cart }) => {
               size="small"
               onClick={removeStockRow}
             />
-          </Input.Group>
-        </Col>
-        <Col xs={6}>
-          {formatter.format(cart.price)}{" "}
+          </Input.Group>,
           <Button
             size="small"
             type="primary"
             icon={<DeleteOutlined />}
             danger
             onClick={removeCartRow}
-          />
-        </Col>
-      </Row>
+          />,
+        ]}
+      >
+        <Meta
+          avatar={<Avatar src={item.image} />}
+          title={`${formatter.format(cart.price)}원`}
+          description={`${formatter.format(item.price)}원`}
+        />
+      </Card>
     );
   }
 };
 
-CartRow.propTypes = {};
+CartRow.propTypes = {
+  rowkey: PropTypes.number.isRequired,
+  item: PropTypes.object.isRequired,
+  cart: PropTypes.object.isRequired,
+};
 
 export default CartRow;
