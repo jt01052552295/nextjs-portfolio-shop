@@ -134,7 +134,7 @@ const CartRow = ({ rowkey, item, cart }) => {
 
 CartRow.propTypes = {
   rowkey: PropTypes.number.isRequired,
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   cart: PropTypes.object.isRequired,
 };
 

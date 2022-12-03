@@ -39,6 +39,7 @@ const Header = () => {
   const selectRef = useRef(null);
   const router = useRouter();
   const [user, setUserState] = useRecoilState(userState);
+  const [userInfo, setUserInfo] = useState(null);
   const user2 = useRecoilValue(userSelector);
   const address = useRecoilValue(addressSelector);
   const [search, setSearchState] = useRecoilState(searchState);
@@ -56,6 +57,10 @@ const Header = () => {
       setAddressText(address?.address2);
     }
   }, [address]);
+
+  useEffect(() => {
+    setUserInfo(user);
+  }, [user]);
 
   useEffect(() => {
     authCheck(router.asPath);
@@ -126,7 +131,7 @@ const Header = () => {
           <Link href="/">Pza Mall</Link>
         </Col>
 
-        {!user && (
+        {!userInfo && (
           <Space>
             <Col>
               <Link href="/member/login">Login</Link>
@@ -154,7 +159,7 @@ const Header = () => {
             >{` ${addressText}`}</Text>
           </Link>
         </Col>
-        {user && (
+        {userInfo && (
           <Col>
             <Link href="#" onClick={(e) => logout(e)}>
               Logout

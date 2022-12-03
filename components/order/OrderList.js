@@ -11,61 +11,121 @@ import {
   Avatar,
   Divider,
   Checkbox,
+  Form,
 } from "antd";
 const { Meta } = Card;
 import { PlusOutlined, MinusOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { userState, addressSelector, orderListStatsState } from "../../atoms";
+import {
+  userState,
+  addressSelector,
+  orderListState,
+  orderListStatsState,
+  orderListCheckedState,
+} from "../../atoms";
 import { useItems } from "../../query/item";
 import OrderRow from "./OrderRow";
+import { phoneNumber } from "../../utils";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
 const OrderList = (props) => {
-  //   const { orderList, totalOrderNum, totalOrderStock, totalOrderPrice } =
-  //     useRecoilValue(orderListStatsState);
+  const [form] = Form.useForm();
+  const { orderList, totalOrderNum, totalOrderStock, totalOrderPrice } =
+    useRecoilValue(orderListStatsState);
 
-  //   const [totalOrderNumState, setTotalOrderNumState] = useState(0);
-  //   const [totalOrderStockState, setTotalOrderStockState] = useState(0);
-  //   const [totalOrderDeliveryState, setTotalOrderDeliveryState] = useState(0);
-  //   const [totalOrderPriceState, setTotalOrderPriceState] = useState(0);
-  //   const [totalOrderPriceSumState, setTotalOrderPriceSumState] = useState(0);
+  const [totalOrderNumState, setTotalOrderNumState] = useState(0);
+  const [totalOrderStockState, setTotalOrderStockState] = useState(0);
+  const [totalOrderDeliveryState, setTotalOrderDeliveryState] = useState(3000);
+  const [totalOrderPriceState, setTotalOrderPriceState] = useState(0);
+  const [totalOrderPriceSumState, setTotalOrderPriceSumState] = useState(0);
 
-  //   const address = useRecoilValue(addressSelector);
-  //   const [deliveryText, setDeliveryText] = useState("");
+  const [orderData, setOrderData] = useRecoilState(orderListState);
+  const [orderChecked, setOrderChecked] = useRecoilState(orderListCheckedState);
 
-  //   const [user, setUserState] = useRecoilState(userState);
+  const address = useRecoilValue(addressSelector);
+  const [deliveryText, setDeliveryText] = useState("");
 
-  //   const [orders, setOrders] = useState([]);
-  //   const [items, setItems] = useState([]);
+  const [user, setUserState] = useRecoilState(userState);
+  const [orderEmail, setEmail] = useState("");
+  const [orderName, setName] = useState("");
+  const [orderPhone, setPhone] = useState("");
 
-  //   useEffect(() => {
-  //     setOrders(orderList);
-  //     // setTotalOrderNumState(totalOrderNum);
-  //     // setTotalOrderStockState(totalOrderStock);
-  //     // setTotalOrderPriceState(totalOrderPrice);
-  //     // setTotalOrderPriceSumState(totalOrderPrice + totalOrderDeliveryState);
-  //   }, [orderList]);
+  const [orders, setOrders] = useState([]);
+  const [items, setItems] = useState([]);
 
-  //   useEffect(() => {
-  //     if (address?.delivery) {
-  //       setDeliveryText(address?.delivery);
-  //     }
-  //   }, [address]);
+  useEffect(() => {
+    setOrders(orderList);
+    setTotalOrderNumState(totalOrderNum);
+    setTotalOrderStockState(totalOrderStock);
+    setTotalOrderPriceState(totalOrderPrice);
+    setTotalOrderPriceSumState(totalOrderPrice + totalOrderDeliveryState);
+  }, [orderList]);
 
-  //   useEffect(() => {
-  //     if (user) {
-  //       console.log(user.email, user.username);
-  //     }
-  //   }, [user]);
+  useEffect(() => {
+    if (address?.delivery) {
+      setDeliveryText(address?.delivery);
+    }
+  }, [address]);
 
-  //   const { isLoading: isLoading, status: status, data: data } = useItems();
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+      setEmail(user.email);
+      setName(user.username);
+    }
+  }, [user]);
 
-  //   useEffect(() => {
-  //     if (status === "success") {
-  //       setItems(data?.data.items);
-  //     }
-  //   }, [status]);
+  const { isLoading: isLoading, status: status, data: data } = useItems();
+
+  useEffect(() => {
+    if (status === "success") {
+      setItems(data?.data.items);
+    }
+  }, [status]);
+
+  const checkAll = (e) => {
+    let arr = [...orderData];
+    const newArr = arr.map((x) => {
+      return e.target.checked;
+    });
+    setOrderChecked(newArr);
+  };
+
+  const checkDelete = (e) => {
+    let arr = [...orderChecked];
+    let newList = [...orderList];
+
+    let checkArr = arr.filter((x) => x === true);
+    if (checkArr.length <= 0) {
+      alert("삭제할 상품을 선택하세요.");
+      return false;
+    }
+
+    let delArr = arr
+      .reduce((a, c, key) => (c === true ? a.concat(key) : a), [])
+      .map((x) => {
+        return newList[x];
+      });
+
+    let diffrence = newList.filter((x) => !delArr.includes(x));
+    setOrderData(diffrence);
+    setOrderChecked([]);
+  };
+
+  const payment = (e) => {
+    let arr = [...orderData];
+    if (arr.length <= 0) {
+      alert("주문결제 가능한 상품이 없습니다.");
+      return false;
+    }
+
+    if (!confirm("주문결제 하시겠습니까?")) return false;
+    console.log("payment");
+    console.log(arr);
+    console.log(orderEmail, orderName, orderPhone);
+    console.log(deliveryText);
+  };
 
   return (
     <Row gutter={16} style={{ padding: 10 }}>
@@ -75,32 +135,35 @@ const OrderList = (props) => {
       <Col xs={24}>
         <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={6}>
-            <Checkbox /> <Button size="small">선택삭제</Button>
+            <Checkbox onChange={checkAll} />{" "}
+            <Button size="small" onClick={checkDelete}>
+              선택삭제
+            </Button>
           </Col>
         </Row>
 
         <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={24}>
             <Card title="주문 내역">
-              {/* {orders.length === 0 && (
+              {orders.length === 0 && (
                 <Row gutter={16} style={{ padding: 10 }}>
                   <Col xs={24}>주문할 상품이 없습니다.</Col>
                 </Row>
-              )} */}
+              )}
 
-              {/* {orders.length > 0 &&
+              {orders.length > 0 &&
                 orders.map((order, key) => {
                   let item = items?.find((x) => x.idx === order.item);
 
-                    return (
-                      <OrderRow
-                        key={key}
-                        rowkey={key}
-                        item={item}
-                        order={order}
-                      />
-                    );
-                })} */}
+                  return (
+                    <OrderRow
+                      key={key}
+                      rowkey={key}
+                      item={item}
+                      order={order}
+                    />
+                  );
+                })}
             </Card>
           </Col>
         </Row>
@@ -108,8 +171,14 @@ const OrderList = (props) => {
         <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={24}>
             <Card title="주문자 정보">
-              <Card type="inner" title="주문자명(계정)">
-                <Input defaultValue="홍길동" suffix="(계정)" />
+              <Card type="inner" title="주문자명">
+                <Input
+                  value={orderName}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Card>
+              <Card type="inner" title="이메일">
+                <Input value={orderEmail} readOnly={true} />
               </Card>
               <Card
                 style={{
@@ -124,6 +193,8 @@ const OrderList = (props) => {
                       width: "calc(100% - 200px)",
                     }}
                     placeholder="연락처입력"
+                    value={orderPhone}
+                    onChange={(e) => setPhone(phoneNumber(e.target.value))}
                   />
                 </Input.Group>
               </Card>
@@ -134,13 +205,13 @@ const OrderList = (props) => {
                 type="inner"
                 title="배송지정보"
               >
-                asdf
+                {deliveryText}
               </Card>
             </Card>
           </Col>
         </Row>
 
-        {/* <Row gutter={16} style={{ padding: 10 }}>
+        <Row gutter={16} style={{ padding: 10 }}>
           <Col xs={24}>
             <Card title="결제정보">
               <Card type="inner" title="전체 상품금액(원)">
@@ -175,10 +246,10 @@ const OrderList = (props) => {
               </Card>
             </Card>
           </Col>
-        </Row> */}
+        </Row>
         <Row gutter={16}>
           <Col xs={6} offset={9}>
-            <Button type="primary" block>
+            <Button type="primary" block onClick={payment}>
               주문결제
             </Button>
           </Col>
