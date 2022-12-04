@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { v1 } from "uuid";
+import Head from "next/head";
+import Script from "next/script";
 import PropTypes from "prop-types";
 import {
   Row,
@@ -114,6 +117,7 @@ const OrderList = (props) => {
   };
 
   const payment = (e) => {
+    window.scrollTo(0, 0);
     let arr = [...orderData];
     if (arr.length <= 0) {
       alert("주문결제 가능한 상품이 없습니다.");
@@ -125,6 +129,35 @@ const OrderList = (props) => {
     console.log(arr);
     console.log(orderEmail, orderName, orderPhone);
     console.log(deliveryText);
+    const IMP = window.IMP; // 생략 가능
+    IMP.init(process.env.NEXT_PUBLIC_PG_IMPORT_CODE); // Example: imp00000000a
+
+    IMP.request_pay(
+      {
+        // param
+        pg: "html5_inicis.INIpayTest",
+        pay_method: "card",
+        merchant_uid: `ord_${v1()}`,
+        name: "노르웨이 회전 의자",
+        amount: 100,
+        buyer_email: orderEmail,
+        buyer_name: orderName,
+        buyer_tel: orderPhone,
+        buyer_addr: deliveryText,
+        buyer_postcode: "",
+      },
+      (rsp) => {
+        // callback
+        if (rsp.success) {
+          // 결제 성공 시 로직,
+          console.log(rsp);
+        } else {
+          // 결제 실패 시 로직,
+          console.log(rsp);
+          alert(rsp.error_msg);
+        }
+      }
+    );
   };
 
   return (
