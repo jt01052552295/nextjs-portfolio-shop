@@ -26,9 +26,12 @@ import {
   orderListStatsState,
   orderListCheckedState,
 } from "../../atoms";
-import { useItems } from "../../query/item";
+
 import OrderRow from "./OrderRow";
 import { phoneNumber } from "../../utils";
+import { useItems } from "../../query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import paymentJson from "../../public/mock/payment.json";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
@@ -117,48 +120,77 @@ const OrderList = (props) => {
   };
 
   const payment = (e) => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     let arr = [...orderData];
     if (arr.length <= 0) {
       alert("주문결제 가능한 상품이 없습니다.");
       return false;
     }
 
-    if (!confirm("주문결제 하시겠습니까?")) return false;
+    // if (!confirm("주문결제 하시겠습니까?")) return false;
     console.log("payment");
     console.log(arr);
     console.log(orderEmail, orderName, orderPhone);
     console.log(deliveryText);
-    const IMP = window.IMP; // 생략 가능
-    IMP.init(process.env.NEXT_PUBLIC_PG_IMPORT_CODE); // Example: imp00000000a
+    // const IMP = window.IMP; // 생략 가능
+    // IMP.init(process.env.NEXT_PUBLIC_PG_IMPORT_CODE); // Example: imp00000000a
 
-    IMP.request_pay(
-      {
-        // param
-        pg: "html5_inicis.INIpayTest",
-        pay_method: "card",
-        merchant_uid: `ord_${v1()}`,
-        name: "노르웨이 회전 의자",
-        amount: 100,
-        buyer_email: orderEmail,
-        buyer_name: orderName,
-        buyer_tel: orderPhone,
-        buyer_addr: deliveryText,
-        buyer_postcode: "",
-      },
-      (rsp) => {
-        // callback
-        if (rsp.success) {
-          // 결제 성공 시 로직,
-          console.log(rsp);
-        } else {
-          // 결제 실패 시 로직,
-          console.log(rsp);
-          alert(rsp.error_msg);
-        }
-      }
-    );
+    orderMutation.mutate(paymentJson);
+
+    // IMP.request_pay(
+    //   {
+    //     // param
+    //     pg: "html5_inicis.INIpayTest",
+    //     pay_method: "card",
+    //     merchant_uid: `ord_${v1()}`,
+    //     name: "노르웨이 회전 의자",
+    //     amount: 100,
+    //     buyer_email: orderEmail,
+    //     buyer_name: orderName,
+    //     buyer_tel: orderPhone,
+    //     buyer_addr: deliveryText,
+    //     buyer_postcode: "",
+    //   },
+    //   (rsp) => {
+    //     // callback
+    //     if (rsp.success) {
+    //       // 결제 성공 시 로직,
+    //       console.log(rsp);
+    //       let new_rsp = { ...rsp, orderData: arr };
+    //       orderMutation.mutate(new_rsp);
+    //     } else {
+    //       // 결제 실패 시 로직,
+    //       console.log(rsp);
+    //       alert(rsp.error_msg);
+    //     }
+    //   }
+    // );
   };
+
+  const orderMutation = useMutation(
+    async (variable) => {
+      console.log("async", variable);
+      return await axios.post("/api/order/payment", variable);
+    },
+    {
+      onMutate: (variable) => {
+        console.log("onMutate", variable);
+        // variable : {loginId: 'xxx', password; 'xxx'}
+      },
+      onError: (error, variable, context) => {
+        // error
+      },
+      onSuccess: (data, variables, context) => {
+        console.log("onSuccess", data);
+        // setUserState(data.data);
+        // const returnUrl = router.query.returnUrl || "/";
+        // router.replace(returnUrl);
+      },
+      onSettled: () => {
+        console.log("end");
+      },
+    }
+  );
 
   return (
     <Row gutter={16} style={{ padding: 10 }}>
