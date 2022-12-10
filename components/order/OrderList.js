@@ -32,10 +32,12 @@ import { phoneNumber } from "../../utils";
 import { useItems } from "../../query";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import paymentJson from "../../public/mock/payment.json";
+import { useRouter } from "next/router";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
 const OrderList = (props) => {
+  const router = useRouter();
   const [form] = Form.useForm();
   const { orderList, totalOrderNum, totalOrderStock, totalOrderPrice } =
     useRecoilValue(orderListStatsState);
@@ -169,22 +171,27 @@ const OrderList = (props) => {
 
   const orderMutation = useMutation(
     async (variable) => {
-      console.log("async", variable);
+      // console.log("async", variable);
       return await axios.post("/api/order/payment", variable);
     },
     {
       onMutate: (variable) => {
-        console.log("onMutate", variable);
+        // console.log("onMutate", variable);
         // variable : {loginId: 'xxx', password; 'xxx'}
       },
       onError: (error, variable, context) => {
         // error
       },
       onSuccess: (data, variables, context) => {
-        console.log("onSuccess", data);
+        console.log("onSuccess", data.data.success);
+        console.log(data.data.result.imp_uid, data.data.result.merchant_uid);
+        // console.log(data.data.success);
+        // if (data.data.success) {
+        //   console.log(data.data.result.imp_uid, data.data.result.merchant_uid);
+        // }
         // setUserState(data.data);
-        // const returnUrl = router.query.returnUrl || "/";
-        // router.replace(returnUrl);
+        const goUrl = `/complete?uid=${data.data.result.imp_uid}`;
+        router.replace(goUrl);
       },
       onSettled: () => {
         console.log("end");
@@ -254,9 +261,6 @@ const OrderList = (props) => {
               >
                 <Input.Group compact>
                   <Input
-                    style={{
-                      width: "calc(100% - 200px)",
-                    }}
                     placeholder="연락처입력"
                     value={orderPhone}
                     onChange={(e) => setPhone(phoneNumber(e.target.value))}

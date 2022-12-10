@@ -10,10 +10,9 @@ export default function handler(req, res) {
 
   async function payment() {
     // const { email, password, name } = req.body;
+    const send_data = JSON.stringify(req.body);
 
     try {
-      const send_data = JSON.stringify(req.body);
-
       const result = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/order/create`,
         send_data,
@@ -24,7 +23,7 @@ export default function handler(req, res) {
         }
       );
 
-      res.json({ success: true, result: req.body });
+      return res.status(200).json({ success: true, result: result.data });
 
       //   if (result.data.email === email) {
       //     return res.status(200).json({
@@ -38,7 +37,9 @@ export default function handler(req, res) {
       //     res.json({ success: false, message: "가입 실패하였습니다!" });
       //   }
     } catch (e) {
-      res.json({ success: false, message: e });
+      return res
+        .status(404)
+        .json({ success: false, message: e, etc: "etc error" });
     }
   }
 }
