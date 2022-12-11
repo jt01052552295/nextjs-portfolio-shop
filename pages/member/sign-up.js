@@ -38,7 +38,7 @@ const SignUp = (props) => {
 
   useEffect(() => {
     if (user) {
-      router.replace("/");
+      // router.replace("/");
     }
   }, [user]);
 

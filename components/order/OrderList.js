@@ -158,7 +158,7 @@ const OrderList = (props) => {
     //     if (rsp.success) {
     //       // 결제 성공 시 로직,
     //       console.log(rsp);
-    //       let new_rsp = { ...rsp, orderData: arr };
+    //       let new_rsp = { ...rsp, order_data: arr };
     //       orderMutation.mutate(new_rsp);
     //     } else {
     //       // 결제 실패 시 로직,

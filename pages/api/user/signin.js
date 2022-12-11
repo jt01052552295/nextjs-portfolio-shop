@@ -37,6 +37,7 @@ export default function handler(req, res) {
           //   result: result.data,
           email: result.data.email,
           username: result.data.name,
+          hp: result.data.hp,
         });
       } else {
         res.json({ success: false, message: "로그인 실패하였습니다!" });

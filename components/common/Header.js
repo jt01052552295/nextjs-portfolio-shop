@@ -160,11 +160,16 @@ const Header = () => {
           </Link>
         </Col>
         {userInfo && (
-          <Col>
-            <Link href="#" onClick={(e) => logout(e)}>
-              Logout
-            </Link>
-          </Col>
+          <Space>
+            <Col>
+              <Link href="/mypage/dashboard">MyPage</Link>
+            </Col>
+            <Col>
+              <Link href="#" onClick={(e) => logout(e)}>
+                Logout
+              </Link>
+            </Col>
+          </Space>
         )}
       </Row>
       <Row
