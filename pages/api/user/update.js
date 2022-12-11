@@ -27,6 +27,7 @@ export default function handler(req, res) {
         email: result.data.email,
         username: result.data.name,
         hp: result.data.hp,
+        result: result.data,
       });
     } catch (e) {
       res.status(404).json({ success: false, message: e });

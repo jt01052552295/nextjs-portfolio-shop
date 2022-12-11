@@ -13,7 +13,13 @@ import {
   Divider,
 } from "antd";
 const { Title } = Typography;
-import { UserOutlined, MailOutlined } from "@ant-design/icons";
+import {
+  LockOutlined,
+  MailOutlined,
+  UserOutlined,
+  EyeInvisibleOutlined,
+  EyeTwoTone,
+} from "@ant-design/icons";
 import {
   useQuery,
   useMutation,
@@ -25,7 +31,7 @@ import { userState, USER_ATOM_KEY } from "../../atoms";
 import { useRouter } from "next/router";
 import axios from "axios";
 
-const Name = (props) => {
+const Pwd = (props) => {
   const [form] = Form.useForm();
   const [user, setUserState] = useRecoilState(userState);
   const [userInfo, setUserInfo] = useState(null);
@@ -36,7 +42,6 @@ const Name = (props) => {
 
   useEffect(() => {
     form.setFieldsValue({
-      name: userInfo?.username,
       email: userInfo?.email,
     });
   }, [userInfo, form]);
@@ -58,7 +63,7 @@ const Name = (props) => {
         console.log(data.data);
         if (data.data.success) {
           setUserState(data.data);
-          alert("정보가 변경되었습니다.");
+          alert("비밀번호가 변경되었습니다.");
         }
       },
       onSettled: () => {
@@ -81,7 +86,7 @@ const Name = (props) => {
       <AppLayout>
         <Row>
           <Col xs={24}>
-            <Divider>이름변경</Divider>
+            <Divider>비밀번호 변경</Divider>
           </Col>
         </Row>
         <Row>
@@ -117,21 +122,48 @@ const Name = (props) => {
                 />
               </Form.Item>
               <Form.Item
-                name="name"
+                name="password"
                 rules={[
                   {
-                    type: "name",
-                    message: "The input is not valid name!",
-                  },
-                  {
                     required: true,
-                    message: "Please input your name!",
+                    message: "Please input your Password!",
                   },
                 ]}
               >
-                <Input
-                  prefix={<UserOutlined className="site-form-item-icon" />}
-                  placeholder="name"
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  placeholder="비밀번호 입력"
+                  iconRender={(visible) =>
+                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                  }
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="confirm"
+                dependencies={["password"]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(
+                          "The two passwords that you entered do not match!"
+                        )
+                      );
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  placeholder="비밀번호 확인"
                 />
               </Form.Item>
 
@@ -153,6 +185,6 @@ const Name = (props) => {
   );
 };
 
-Name.propTypes = {};
+Pwd.propTypes = {};
 
-export default Name;
+export default Pwd;
