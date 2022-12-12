@@ -1,0 +1,85 @@
+body {
+  background-color: #e9ecef;
+}
+
+.max-container {
+  min-width: 320px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.ant-layout {
+  background: #fff;
+}
+
+.head {
+  /* background-color: gray; */
+}
+
+.footer {
+  height: 100px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.singlePageContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.mb {
+  position: relative;
+  width: 100%;
+  background: #f2f2f2;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.mb img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
+.top-to-btm {
+  position: fixed;
+  bottom: 40px;
+  right: 25px;
+  z-index: 20;
+}
+
+.site-card-wrapper {
+  padding: 10px;
+  background: #ececec;
+}
+
+.view-json-result {
+  display: block;
+  width: 100%;
+  height: 150px;
+  overflow: overlay;
+  padding: 0.25rem 0.5rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+}
+
+.con {
+  background-color: aqua;
+  height: 100vh;
+}
+
+.con div {
+  background-color: gray;
+}

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { ArrowUpOutlined } from "@ant-design/icons";
-import { Button, Tooltip } from "antd";
+import { Button, Tooltip, Divider, Tag } from "antd";
 
 const Footer = () => {
   const goToTop = () => {
@@ -13,6 +13,14 @@ const Footer = () => {
 
   return (
     <footer className="footer">
+      <div>
+        <Tag color="default">React.js</Tag>
+        <Tag color="default">Next.js</Tag>
+        <Tag color="default">React-Query</Tag>
+        <Tag color="default">Recoil</Tag>
+        <Tag color="default">Antd</Tag>
+      </div>
+
       <a
         href="https://github.com/jt01052552295/nextjs-portfolio-shop"
         target="_blank"

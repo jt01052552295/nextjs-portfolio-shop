@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import AppLayout from "../components/AppLayout";
 import Items from "../components/items/Items";
+import Slick from "../components/slider/Slick";
 
 export default function index() {
   return (
     <div className="max-container">
       <AppLayout>
         <div className="mb">
-          <div className="mainBanner">
+          <Slick />
+
+          {/* <div className="mainBanner">
             <Image
               src={`/images/main.png`}
               className="mbImg"
@@ -16,7 +19,7 @@ export default function index() {
               fill
               alt="main"
             />
-          </div>
+          </div> */}
         </div>
         <Items />
       </AppLayout>

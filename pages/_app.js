@@ -1,7 +1,8 @@
 import React, { Suspense } from "react";
 import PropTypes from "prop-types";
 import "antd/dist/antd.css";
-import "./App.css";
+// import "./App.css";
+import "../css/style.css";
 import Head from "next/head";
 import Script from "next/script";
 import {
