@@ -16,9 +16,10 @@ const Footer = () => {
       <div>
         <Tag color="default">React.js</Tag>
         <Tag color="default">Next.js</Tag>
+        <Tag color="default">Antd</Tag>
+        <Tag color="default">SCSS</Tag>
         <Tag color="default">React-Query</Tag>
         <Tag color="default">Recoil</Tag>
-        <Tag color="default">Antd</Tag>
       </div>
 
       <a

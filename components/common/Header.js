@@ -2,12 +2,26 @@ import React, { useCallback, useState, useRef, useEffect } from "react";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Link from "next/link";
-import { Row, Col, Input, Select, Badge, Space, Typography } from "antd";
+import {
+  Row,
+  Col,
+  Input,
+  Select,
+  Badge,
+  Space,
+  Typography,
+  Button,
+  Drawer,
+} from "antd";
 const { Search } = Input;
 const { Option } = Select;
 const { Text } = Typography;
-import { ShoppingCartOutlined, EnvironmentOutlined } from "@ant-design/icons";
-import useInput from "../../hooks/useInput";
+import {
+  ShoppingCartOutlined,
+  EnvironmentOutlined,
+  MenuOutlined,
+} from "@ant-design/icons";
+import Navigation from "./Navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   userState,
@@ -108,15 +122,15 @@ const Header = () => {
   const logout = (e) => {
     e.preventDefault();
 
-    Promise.allSettled([setUserState(null)])
-      .then((results) => {
-        localStorage.removeItem(USER_ATOM_KEY);
-        router.replace("/");
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {});
+    // Promise.allSettled([setUserState(null)])
+    //   .then((results) => {
+    //     localStorage.removeItem(USER_ATOM_KEY);
+    //     router.replace("/");
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   })
+    //   .finally(() => {});
   };
 
   return (
@@ -130,17 +144,6 @@ const Header = () => {
         <Col flex={2}>
           <Link href="/">Pza Mall</Link>
         </Col>
-
-        {!userInfo && (
-          <Space>
-            <Col>
-              <Link href="/member/login">Login</Link>
-            </Col>
-            <Col>
-              <Link href="/member/sign-up">Register</Link>
-            </Col>
-          </Space>
-        )}
         <Col>
           <Link href="/cart">
             <Badge count={cartTotalNum} size="small">
@@ -159,18 +162,9 @@ const Header = () => {
             >{` ${addressText}`}</Text>
           </Link>
         </Col>
-        {userInfo && (
-          <Space>
-            <Col>
-              <Link href="/mypage/dashboard">MyPage</Link>
-            </Col>
-            <Col>
-              <Link href="#" onClick={(e) => logout(e)}>
-                Logout
-              </Link>
-            </Col>
-          </Space>
-        )}
+        <Col>
+          <Navigation />
+        </Col>
       </Row>
       <Row
         gutter={16}
