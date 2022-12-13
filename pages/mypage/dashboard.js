@@ -21,12 +21,12 @@ import { useRouter } from "next/router";
 
 const data = [
   {
-    title: "주문목록",
+    title: "주문목록(준비중)",
     avatar: <UnorderedListOutlined />,
     url: "/mypage/order/list",
   },
   {
-    title: "취소목록",
+    title: "취소목록(준비중)",
     avatar: <UnorderedListOutlined />,
     url: "/mypage/order/cancel",
   },

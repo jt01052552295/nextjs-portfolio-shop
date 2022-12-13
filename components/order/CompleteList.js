@@ -20,7 +20,10 @@ const CompleteList = ({ uid }) => {
           >
             Go Home
           </Button>,
-          <Button key="buy" onClick={(e) => router.replace("/")}>
+          <Button
+            key="buy"
+            onClick={(e) => router.replace("/mypage/dashboard")}
+          >
             My Page
           </Button>,
         ]}

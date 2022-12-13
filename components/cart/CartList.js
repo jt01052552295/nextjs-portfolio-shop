@@ -21,10 +21,12 @@ import {
 } from "../../atoms";
 import { useItems } from "../../query/item";
 import CartRow from "./CartRow";
+import { useRouter } from "next/router";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
 const CartList = (props) => {
+  const router = useRouter();
   const { cartList, totalStock, totalPrice } =
     useRecoilValue(cartListStatsState);
   const [cartData, setCartData] = useRecoilState(cartListState);
@@ -84,10 +86,15 @@ const CartList = (props) => {
 
   const goOrder = (e) => {
     if (!confirm("장바구니상품을 주문 하시겠습니까?")) return false;
-    console.log("order");
+    // console.log("order");
     let arr = [...cartData];
-    console.log(arr);
+    if (arr.length <= 0) {
+      alert("장바구니에 상품이 없습니다.");
+      return false;
+    }
+    // console.log(arr);
     setOrderData(arr);
+    router.replace("/order");
   };
 
   return (

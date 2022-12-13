@@ -42,6 +42,7 @@ const Navigation = (props) => {
     Promise.allSettled([setUserState(null)])
       .then((results) => {
         localStorage.removeItem(USER_ATOM_KEY);
+        setUserInfo(null);
         router.replace("/");
       })
       .catch((error) => {
@@ -97,15 +98,17 @@ const Navigation = (props) => {
           </Space>
         }
       >
-        <Row gutter={[16, 16]}>
-          <Col xs={24}>
-            <Avatar size={64} icon={<UserOutlined />} />
-          </Col>
-          <Col xs={24}>
-            <Meta title={userInfo?.username} description={userInfo?.email} />
-          </Col>
-        </Row>
-        <Divider />
+        {userInfo && (
+          <Row gutter={[16, 16]}>
+            <Col xs={24}>
+              <Avatar size={64} icon={<UserOutlined />} />
+            </Col>
+            <Col xs={24}>
+              <Meta title={userInfo?.username} description={userInfo?.email} />
+            </Col>
+            <Divider />
+          </Row>
+        )}
         <Row gutter={[16]}>
           <Col xs={24}>네비게이션</Col>
           <Col xs={24}>준비중...</Col>
