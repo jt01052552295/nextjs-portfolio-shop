@@ -6,12 +6,11 @@ import Slick from "../components/slider/Slick";
 
 export default function index() {
   return (
-    <div className="max-container">
-      <AppLayout>
-        <div className="mb">
-          <Slick />
+    <AppLayout title="개인쇼핑몰 v1.0" description="설명하기민망함.">
+      <div className="mb">
+        <Slick />
 
-          {/* <div className="mainBanner">
+        {/* <div className="mainBanner">
             <Image
               src={`/images/main.png`}
               className="mbImg"
@@ -20,9 +19,8 @@ export default function index() {
               alt="main"
             />
           </div> */}
-        </div>
-        <Items />
-      </AppLayout>
-    </div>
+      </div>
+      <Items />
+    </AppLayout>
   );
 }

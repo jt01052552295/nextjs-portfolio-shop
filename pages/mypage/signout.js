@@ -86,78 +86,76 @@ const Signout = (props) => {
   };
 
   return (
-    <div className="max-container">
-      <AppLayout>
-        <Row>
-          <Col xs={24}>
-            <Divider>계정탈퇴</Divider>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={16} offset={4}>
-            <Form
-              form={form}
-              name="normal_login"
-              className="sign-form"
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-              initialValues={{
-                name: "",
-              }}
+    <AppLayout title="계정탈퇴 | 개인쇼핑몰 v1.0" description="설명..">
+      <Row>
+        <Col xs={24}>
+          <Divider>계정탈퇴</Divider>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={16} offset={4}>
+          <Form
+            form={form}
+            name="normal_login"
+            className="sign-form"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            initialValues={{
+              name: "",
+            }}
+          >
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  type: "email",
+                  message: "The input is not valid E-mail!",
+                },
+                {
+                  required: true,
+                  message: "Please input your email!",
+                },
+              ]}
             >
-              <Form.Item
-                name="email"
-                rules={[
-                  {
-                    type: "email",
-                    message: "The input is not valid E-mail!",
-                  },
-                  {
-                    required: true,
-                    message: "Please input your email!",
-                  },
-                ]}
-              >
-                <Input
-                  prefix={<MailOutlined className="site-form-item-icon" />}
-                  placeholder="email"
-                  readOnly
-                />
-              </Form.Item>
-              <Form.Item
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Password!",
-                  },
-                ]}
-              >
-                <Input.Password
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="비밀번호 입력"
-                  iconRender={(visible) =>
-                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                  }
-                />
-              </Form.Item>
+              <Input
+                prefix={<MailOutlined className="site-form-item-icon" />}
+                placeholder="email"
+                readOnly
+              />
+            </Form.Item>
+            <Form.Item
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Password!",
+                },
+              ]}
+            >
+              <Input.Password
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                placeholder="비밀번호 입력"
+                iconRender={(visible) =>
+                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                }
+              />
+            </Form.Item>
 
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  block
-                  loading={userMutation.isLoading}
-                >
-                  Submit
-                </Button>
-              </Form.Item>
-            </Form>
-          </Col>
-        </Row>
-      </AppLayout>
-    </div>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                loading={userMutation.isLoading}
+              >
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
+        </Col>
+      </Row>
+    </AppLayout>
   );
 };
 

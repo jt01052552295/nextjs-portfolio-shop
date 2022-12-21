@@ -16,11 +16,9 @@ const ViewItem = ({ id, message }) => {
   }, []);
 
   return (
-    <div className="max-container">
-      <AppLayout>
-        <ItemDetail item={item} />
-      </AppLayout>
-    </div>
+    <AppLayout title="상품상세 | 개인쇼핑몰 v1.0" description="desc..">
+      <ItemDetail item={item} />
+    </AppLayout>
   );
 };
 

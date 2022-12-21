@@ -5,11 +5,9 @@ import AppLayout from "../components/AppLayout";
 
 const Complete = ({ uid }) => {
   return (
-    <div className="max-container">
-      <AppLayout>
-        <CompleteList uid={uid} />
-      </AppLayout>
-    </div>
+    <AppLayout title="주문완료 | 개인쇼핑몰 v1.0" description="desc..">
+      <CompleteList uid={uid} />
+    </AppLayout>
   );
 };
 

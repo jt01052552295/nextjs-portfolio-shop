@@ -79,38 +79,36 @@ const Dashboard = (props) => {
   }, [address]);
 
   return (
-    <div className="max-container">
-      <AppLayout>
-        <Row gutter={16} style={{ padding: 10 }}>
-          <Col xs={24}>
-            <Card title="프로필">
-              <Meta
-                avatar={<UserOutlined />}
-                title={userInfo?.email}
-                description={userInfo?.username}
-              />
-            </Card>
-          </Col>
-          <Col xs={24}>
-            <List
-              itemLayout="horizontal"
-              dataSource={data}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    avatar={item.avatar}
-                    title={<Link href={item.url}>{item.title}</Link>}
-                  />
-                  <div>
-                    <RightOutlined />
-                  </div>
-                </List.Item>
-              )}
+    <AppLayout title="마이페이지 | 개인쇼핑몰 v1.0" description="설명..">
+      <Row gutter={16} style={{ padding: 10 }}>
+        <Col xs={24}>
+          <Card title="프로필">
+            <Meta
+              avatar={<UserOutlined />}
+              title={userInfo?.email}
+              description={userInfo?.username}
             />
-          </Col>
-        </Row>
-      </AppLayout>
-    </div>
+          </Card>
+        </Col>
+        <Col xs={24}>
+          <List
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={item.avatar}
+                  title={<Link href={item.url}>{item.title}</Link>}
+                />
+                <div>
+                  <RightOutlined />
+                </div>
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
+    </AppLayout>
   );
 };
 

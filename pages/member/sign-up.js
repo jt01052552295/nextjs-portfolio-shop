@@ -86,163 +86,159 @@ const SignUp = (props) => {
     console.log("Failed:", errorInfo);
   };
   return (
-    <div className="max-container">
-      <SingleLayout>
-        <Layout style={{ height: "100vh" }}>
-          <Row>
-            <Col
-              xs={16}
-              offset={4}
-              style={{ textAlign: "center", marginBottom: 50, marginTop: 50 }}
+    <SingleLayout>
+      <Layout style={{ height: "100vh" }}>
+        <Row>
+          <Col
+            xs={16}
+            offset={4}
+            style={{ textAlign: "center", marginBottom: 50, marginTop: 50 }}
+          >
+            <Link href="/">
+              <Image
+                src="/images/vercel.svg"
+                alt="Logo"
+                width={283}
+                height={64}
+              />
+            </Link>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={16} offset={4}>
+            <Form
+              form={form}
+              name="normal_login"
+              className="sign-form"
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
+              initialValues={{
+                agreement: true,
+                name: generateName,
+              }}
             >
-              <Link href="/">
-                <Image
-                  src="/images/vercel.svg"
-                  alt="Logo"
-                  width={283}
-                  height={64}
-                />
-              </Link>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={16} offset={4}>
-              <Form
-                form={form}
-                name="normal_login"
-                className="sign-form"
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-                initialValues={{
-                  agreement: true,
-                  name: generateName,
-                }}
+              <Form.Item
+                name="name"
+                rules={[
+                  {
+                    type: "name",
+                    message: "The input is not valid name!",
+                  },
+                  {
+                    required: true,
+                    message: "Please input your name!",
+                  },
+                ]}
               >
-                <Form.Item
-                  name="name"
-                  rules={[
-                    {
-                      type: "name",
-                      message: "The input is not valid name!",
-                    },
-                    {
-                      required: true,
-                      message: "Please input your name!",
-                    },
-                  ]}
-                >
-                  <Input
-                    prefix={<UserOutlined className="site-form-item-icon" />}
-                    placeholder="name"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="email"
-                  rules={[
-                    {
-                      type: "email",
-                      message: "The input is not valid E-mail!",
-                    },
-                    {
-                      required: true,
-                      message: "Please input your email!",
-                    },
-                  ]}
-                >
-                  <Input
-                    prefix={<MailOutlined className="site-form-item-icon" />}
-                    placeholder="email"
-                  />
-                </Form.Item>
-                <Form.Item
-                  name="password"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your Password!",
-                    },
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="input password"
-                    iconRender={(visible) =>
-                      visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                    }
-                  />
-                </Form.Item>
+                <Input
+                  prefix={<UserOutlined className="site-form-item-icon" />}
+                  placeholder="name"
+                />
+              </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    type: "email",
+                    message: "The input is not valid E-mail!",
+                  },
+                  {
+                    required: true,
+                    message: "Please input your email!",
+                  },
+                ]}
+              >
+                <Input
+                  prefix={<MailOutlined className="site-form-item-icon" />}
+                  placeholder="email"
+                />
+              </Form.Item>
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your Password!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  placeholder="input password"
+                  iconRender={(visible) =>
+                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                  }
+                />
+              </Form.Item>
 
-                <Form.Item
-                  name="confirm"
-                  dependencies={["password"]}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please confirm your password!",
+              <Form.Item
+                name="confirm"
+                dependencies={["password"]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please confirm your password!",
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error(
+                          "The two passwords that you entered do not match!"
+                        )
+                      );
                     },
-                    ({ getFieldValue }) => ({
-                      validator(_, value) {
-                        if (!value || getFieldValue("password") === value) {
-                          return Promise.resolve();
-                        }
-                        return Promise.reject(
-                          new Error(
-                            "The two passwords that you entered do not match!"
-                          )
-                        );
-                      },
-                    }),
-                  ]}
-                >
-                  <Input.Password
-                    prefix={<LockOutlined className="site-form-item-icon" />}
-                    placeholder="confirm password"
-                  />
-                </Form.Item>
+                  }),
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  placeholder="confirm password"
+                />
+              </Form.Item>
 
-                <Form.Item
-                  name="agreement"
-                  valuePropName="checked"
-                  rules={[
-                    {
-                      validator: (_, value) =>
-                        value
-                          ? Promise.resolve()
-                          : Promise.reject(
-                              new Error("Should accept agreement")
-                            ),
-                    },
-                  ]}
-                >
-                  <Checkbox>
-                    {" "}
-                    I have read the <Link href="/agreement">agreement</Link>
-                  </Checkbox>
-                </Form.Item>
+              <Form.Item
+                name="agreement"
+                valuePropName="checked"
+                rules={[
+                  {
+                    validator: (_, value) =>
+                      value
+                        ? Promise.resolve()
+                        : Promise.reject(new Error("Should accept agreement")),
+                  },
+                ]}
+              >
+                <Checkbox>
+                  {" "}
+                  I have read the <Link href="/agreement">agreement</Link>
+                </Checkbox>
+              </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    loading={loginMutation.isLoading}
-                  >
-                    Register
-                  </Button>
-                  {` `}
-                  <Button
-                    htmlType="button"
-                    onClick={(e) => (location.href = "/")}
-                  >
-                    Home
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Col>
-          </Row>
-        </Layout>
-      </SingleLayout>
-    </div>
+              <Form.Item {...tailLayout}>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={loginMutation.isLoading}
+                >
+                  Register
+                </Button>
+                {` `}
+                <Button
+                  htmlType="button"
+                  onClick={(e) => (location.href = "/")}
+                >
+                  Home
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+      </Layout>
+    </SingleLayout>
   );
 };
 

@@ -5,11 +5,9 @@ import AppLayout from "../components/AppLayout";
 
 const Cart = (props) => {
   return (
-    <div className="max-container">
-      <AppLayout>
-        <CartList />
-      </AppLayout>
-    </div>
+    <AppLayout title="장바구니 | 개인쇼핑몰 v1.0" description="desc..">
+      <CartList />
+    </AppLayout>
   );
 };
 

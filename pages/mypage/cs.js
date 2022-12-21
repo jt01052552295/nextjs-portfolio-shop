@@ -6,16 +6,14 @@ import Link from "next/link";
 
 const Cs = (props) => {
   return (
-    <div className="max-container">
-      <AppLayout>
-        <Result
-          status="success"
-          title="고객센터"
-          subTitle="준비중 입니다."
-          extra={<Link href="/">Home</Link>}
-        />
-      </AppLayout>
-    </div>
+    <AppLayout title="고객센터 | 개인쇼핑몰 v1.0" description="설명..">
+      <Result
+        status="success"
+        title="고객센터"
+        subTitle="준비중 입니다."
+        extra={<Link href="/">Home</Link>}
+      />
+    </AppLayout>
   );
 };
 

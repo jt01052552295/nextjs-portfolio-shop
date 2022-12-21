@@ -5,11 +5,9 @@ import AppLayout from "../components/AppLayout";
 
 const Order = (props) => {
   return (
-    <div className="max-container">
-      <AppLayout>
-        <OrderList />
-      </AppLayout>
-    </div>
+    <AppLayout title="주문하기 | 개인쇼핑몰 v1.0" description="desc..">
+      <OrderList />
+    </AppLayout>
   );
 };
 

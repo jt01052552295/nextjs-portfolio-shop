@@ -83,50 +83,48 @@ const Location = (props) => {
   }, [page]);
 
   return (
-    <div className="max-container">
-      <AppLayout>
-        <Row
-          gutter={16}
-          style={{
-            padding: 10,
-            height: "100vh",
-            display: "block",
-          }}
-        >
+    <AppLayout title="주소설정 | 개인쇼핑몰 v1.0" description="desc..">
+      <Row
+        gutter={16}
+        style={{
+          padding: 10,
+          height: "100vh",
+          display: "block",
+        }}
+      >
+        <Col xs={24}>
+          <Divider>주소설정</Divider>
+          <Search
+            placeholder="건물명,도로명 또는 지번으로 검색"
+            onSearch={setKeywordState}
+            enterButton
+            loading={false}
+          />
+        </Col>
+
+        {!showDetail && total_count > 0 && (
           <Col xs={24}>
-            <Divider>주소설정</Divider>
-            <Search
-              placeholder="건물명,도로명 또는 지번으로 검색"
-              onSearch={setKeywordState}
-              enterButton
-              loading={false}
+            <SearchAddress addresses={addresses} />
+            <SearchAddressPage
+              is_end={is_end}
+              pageable_count={pageable_count}
+              total_count={total_count}
+              per_page={per_page}
+              page={page}
+              countPerPage={countPerPage}
+              keyword={keyword}
+              setPage={setPage}
             />
           </Col>
+        )}
 
-          {!showDetail && total_count > 0 && (
-            <Col xs={24}>
-              <SearchAddress addresses={addresses} />
-              <SearchAddressPage
-                is_end={is_end}
-                pageable_count={pageable_count}
-                total_count={total_count}
-                per_page={per_page}
-                page={page}
-                countPerPage={countPerPage}
-                keyword={keyword}
-                setPage={setPage}
-              />
-            </Col>
-          )}
-
-          {showDetail && (
-            <Col xs={24}>
-              <DetailAddress />
-            </Col>
-          )}
-        </Row>
-      </AppLayout>
-    </div>
+        {showDetail && (
+          <Col xs={24}>
+            <DetailAddress />
+          </Col>
+        )}
+      </Row>
+    </AppLayout>
   );
 };
 

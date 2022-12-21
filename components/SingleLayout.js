@@ -5,13 +5,15 @@ const { Content } = Layout;
 
 const SingleLayout = ({ children }) => {
   return (
-    <Layout>
-      <Row gutter={[8, 8]} justify="center">
-        <Col xs={24}>
-          <Content>{children}</Content>
-        </Col>
-      </Row>
-    </Layout>
+    <div className="max-container">
+      <Layout>
+        <Row gutter={[8, 8]} justify="center">
+          <Col xs={24}>
+            <Content>{children}</Content>
+          </Col>
+        </Row>
+      </Layout>
+    </div>
   );
 };
 
