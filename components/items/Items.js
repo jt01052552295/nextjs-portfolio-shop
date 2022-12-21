@@ -19,7 +19,7 @@ const Items = (props) => {
   const { isLoading: isLoading, refetch: getLists, data: data } = useItems();
 
   useEffect(() => {
-    if (isLoading) console.log("loading...");
+    // if (isLoading) console.log("loading...");
   }, [isLoading]);
 
   useEffect(() => {

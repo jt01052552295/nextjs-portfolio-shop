@@ -9,10 +9,12 @@ import {
   EllipsisOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 const formatter = Intl.NumberFormat("ko-kr");
 
 const Item = ({ item }) => {
+  const router = useRouter();
   return (
     <Col span={12}>
       <Card
@@ -25,7 +27,10 @@ const Item = ({ item }) => {
         //   <EditOutlined key="edit" />,
         //   <EllipsisOutlined key="ellipsis" />,
         // ]}
-        onClick={(e) => (location.href = `/item/${item.idx}`)}
+        onClick={(e) =>
+          router.push(`/item/${item.idx}`)
+          // location.href = `/item/${item.idx}`
+        }
       >
         <div className="category">
           <span>{item.category}</span>
