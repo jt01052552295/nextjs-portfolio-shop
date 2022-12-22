@@ -7,11 +7,9 @@ import axios from "axios";
 
 const List = ({ page, list, fallback }) => {
   return (
-    <div className="max-container">
-      <AppLayout>
-        <MyOrderList page={page} list={list} />
-      </AppLayout>
-    </div>
+    <AppLayout title="주문내역 | 개인쇼핑몰 v1.0" description={"..."}>
+      <MyOrderList page={page} list={list} />
+    </AppLayout>
   );
 };
 

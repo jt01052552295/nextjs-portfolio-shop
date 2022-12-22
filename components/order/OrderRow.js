@@ -30,7 +30,7 @@ const OrderRow = ({ rowkey, item, order }) => {
   const [orderChecked, setOrderChecked] = useRecoilState(orderListCheckedState);
 
   useEffect(() => {
-    console.log(rowkey, item);
+    //console.log(rowkey, item);
   }, []);
 
   const checkRow = (e) => {

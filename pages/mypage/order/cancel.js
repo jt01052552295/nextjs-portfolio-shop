@@ -4,9 +4,9 @@ import AppLayout from "../../../components/AppLayout";
 
 const Cancel = (props) => {
   return (
-    <div className="max-container">
-      <AppLayout>cancel</AppLayout>
-    </div>
+    <AppLayout title="취소내역 | 개인쇼핑몰 v1.0" description={"..."}>
+      cancel
+    </AppLayout>
   );
 };
 

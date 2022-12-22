@@ -133,8 +133,8 @@ const OrderList = (props) => {
       return false;
     }
 
-    // if (!confirm("주문결제 하시겠습니까?")) return false;
-    console.log("payment");
+    if (!confirm("주문결제 하시겠습니까?")) return false;
+    //console.log("payment");
 
     let product_name = "";
     let products = [];

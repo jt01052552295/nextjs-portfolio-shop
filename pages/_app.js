@@ -25,11 +25,11 @@ const App = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
-      console.log(
-        `App is changing to ${url} ${
-          shallow ? "with" : "without"
-        } shallow routing`
-      );
+      // console.log(
+      //   `App is changing to ${url} ${
+      //     shallow ? "with" : "without"
+      //   } shallow routing`
+      // );
       setLoaded(true);
     };
 
